@@ -2272,9 +2272,9 @@ function parsearFecha(nombreClase) {
     'SEP':'Sep','SEPT':'Sep','OCT':'Oct','NOV':'Nov','DIC':'Dic',
     'MZO':'Mar','JUN':'Jun','AGO':'Ago'
   };
-  // Extraer año del sufijo _YYYY
+  // Extraer año del sufijo _YYYY, o usar el año actual si no tiene
   const anioMatch = nombreClase.match(/_(\d{4})$/);
-  const anio = anioMatch ? anioMatch[1] : '';
+  const anio = anioMatch ? anioMatch[1] : new Date().getFullYear().toString();
   // Extraer día y mes del inicio — exactamente 3 letras del mes
   const match = nombreClase.match(/^(\d{1,2})([A-Z]{3})/i);
   if (!match) return anio;
