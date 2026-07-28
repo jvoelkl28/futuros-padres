@@ -1,0 +1,2789 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Futuros Padres · Compensar</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal:       #00B4C8;
+    --teal-dark:  #0090A0;
+    --teal-light: #E0F7FA;
+    --orange:     #F47920;
+    --orange-light: #FFF0E6;
+    --fuchsia:    #C41E8C;
+    --purple:     #6B3FA0;
+    --purple-light: #F0EBF8;
+    --white:      #FFFFFF;
+    --bg:         #F7FAFB;
+    --border:     #E0EEF1;
+    --text:       #1A2B35;
+    --text-soft:  #607D8B;
+    --shadow:     0 2px 16px rgba(0,180,200,0.10);
+    --radius:     18px;
+    --radius-sm:  12px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* ══════════════ LOGIN ══════════════ */
+  #screen-login {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    background: linear-gradient(160deg, #E0F7FA 0%, #FFF0E6 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  #screen-login::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(0,180,200,0.15), transparent 70%);
+    border-radius: 50%;
+  }
+
+  #screen-login::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; left: -60px;
+    width: 250px; height: 250px;
+    background: radial-gradient(circle, rgba(244,121,32,0.12), transparent 70%);
+    border-radius: 50%;
+  }
+
+  .login-card {
+    background: var(--white);
+    border-radius: 28px;
+    padding: 2.5rem 2rem;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 12px 48px rgba(0,180,200,0.15);
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .login-header {
+    margin-bottom: 1.8rem;
+  }
+
+  .compensar-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--teal-light);
+    border: 1px solid var(--teal);
+    border-radius: 99px;
+    padding: 0.3rem 0.9rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--teal-dark);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 1.2rem;
+  }
+
+  .login-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-soft);
+    margin-bottom: 0.3rem;
+  }
+
+  .login-brand {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 2rem;
+    line-height: 1.1;
+    background: linear-gradient(135deg, var(--fuchsia), var(--purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.3rem;
+  }
+
+  .login-sub {
+    font-size: 0.85rem;
+    color: var(--text-soft);
+  }
+
+  .login-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 1.5rem 0;
+  }
+
+  .login-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-soft);
+    text-align: left;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  .login-input {
+    width: 100%;
+    padding: 0.9rem 1.2rem;
+    border: 2px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text);
+    background: var(--bg);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    margin-bottom: 1rem;
+    letter-spacing: 0.05em;
+  }
+
+  .login-input:focus {
+    border-color: var(--teal);
+    box-shadow: 0 0 0 3px rgba(0,180,200,0.12);
+  }
+
+  .btn-login {
+    width: 100%;
+    padding: 1rem;
+    background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.15s;
+    letter-spacing: 0.02em;
+  }
+
+  .btn-login:hover { opacity: 0.92; transform: translateY(-1px); }
+  .btn-login:active { transform: translateY(0); }
+
+  .login-error {
+    color: #C0392B;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-top: 0.6rem;
+    display: none;
+    background: #FDECEA;
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+  }
+
+  .login-decorations {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    font-size: 1.5rem;
+    opacity: 0.6;
+  }
+
+  /* ══════════════ APP ══════════════ */
+  html, body { height: 100%; overflow: hidden; margin: 0; }
+  #app { display: none; height: 100vh; overflow: hidden; position: relative; }
+  html, body { scroll-behavior: auto !important; }
+
+  /* Header */
+  .app-header {
+    background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+    padding: 0.9rem 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 16px rgba(0,144,160,0.25);
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+  }
+
+  .header-logo {
+    font-size: 1.5rem;
+  }
+
+  .header-titles {}
+  .header-program {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(255,255,255,0.75);
+    line-height: 1;
+  }
+
+  .header-name {
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: white;
+    line-height: 1.2;
+  }
+
+  .btn-logout {
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.35);
+    border-radius: 8px;
+    padding: 0.35rem 0.75rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: white;
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+  }
+
+  /* Screens */
+  .screen { display: none; padding: 1.2rem; max-width: 600px; margin: 0 auto;
+    position: absolute; top: 60px; left: 0; right: 0;
+    bottom: 76px; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+  .screen.active { display: block; }
+
+  .screen-title {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.6rem;
+    color: var(--fuchsia);
+    margin-bottom: 0.2rem;
+  }
+
+  .screen-subtitle {
+    color: var(--text-soft);
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 1.2rem;
+  }
+
+  /* ══════════════ BOTTOM NAV ══════════════ */
+  .bottom-nav {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: var(--white);
+    border-top: 2px solid var(--teal-light);
+    display: flex;
+    z-index: 200;
+    box-shadow: 0 -4px 20px rgba(0,180,200,0.10);
+  }
+
+  .nav-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0.55rem 0.2rem 0.45rem;
+    cursor: pointer;
+    border: none;
+    background: none;
+    font-family: 'Nunito', sans-serif;
+    color: var(--text-soft);
+    font-size: 0.6rem;
+    font-weight: 700;
+    gap: 0.15rem;
+    transition: color 0.2s;
+    -webkit-tap-highlight-color: transparent;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .nav-item.active { color: var(--teal); }
+  .nav-item .nav-icon { font-size: 1.25rem; }
+  .nav-item.active .nav-icon { filter: drop-shadow(0 0 4px rgba(0,180,200,0.5)); }
+
+  /* ══════════════ CARDS ══════════════ */
+  .card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 1.3rem;
+    margin-bottom: 0.9rem;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+  }
+
+  .card-title {
+    font-weight: 800;
+    font-size: 0.9rem;
+    margin-bottom: 0.7rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--teal-dark);
+  }
+
+  /* ══════════════ PROGRESO ══════════════ */
+  .progress-hero {
+    background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .progress-hero::after {
+    content: '🤰';
+    position: absolute;
+    right: 1rem;
+    bottom: -0.5rem;
+    font-size: 4rem;
+    opacity: 0.2;
+  }
+
+  .progress-pct {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem;
+    line-height: 1;
+    font-style: italic;
+  }
+
+  .progress-pct span { font-size: 1.4rem; font-style: normal; }
+  .progress-legend { font-size: 0.85rem; opacity: 0.85; font-weight: 600; margin-top: 0.3rem; }
+
+  .progress-bar-wrap {
+    background: rgba(255,255,255,0.25);
+    border-radius: 99px;
+    height: 10px;
+    margin-top: 1rem;
+    overflow: hidden;
+  }
+
+  .progress-bar-fill {
+    background: white;
+    border-radius: 99px;
+    height: 100%;
+    transition: width 1s cubic-bezier(.4,0,.2,1);
+  }
+
+  .session-list { display: flex; flex-direction: column; gap: 0.5rem; }
+
+  .session-item {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.85rem 1rem;
+    background: var(--white);
+    border-radius: var(--radius-sm);
+    border: 1.5px solid var(--border);
+    box-shadow: var(--shadow);
+  }
+
+  .session-item.done { border-color: var(--teal-light); background: #F5FEFF; }
+
+  .session-dot {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+
+  .session-dot.done { background: var(--teal-light); }
+  .session-dot.pending { background: var(--orange-light); }
+
+  .session-info { flex: 1; }
+  .session-name { font-weight: 700; font-size: 0.88rem; }
+  .session-status { font-size: 0.75rem; color: var(--text-soft); font-weight: 600; }
+
+  .badge {
+    padding: 0.22rem 0.65rem;
+    border-radius: 99px;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.03em;
+  }
+
+  .badge-teal { background: var(--teal-light); color: var(--teal-dark); }
+  .badge-orange { background: var(--orange-light); color: var(--orange); }
+
+  .cert-banner {
+    background: linear-gradient(135deg, var(--orange-light), #FFF8EE);
+    border: 2px solid var(--orange);
+    border-radius: var(--radius);
+    padding: 1.2rem 1.3rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .cert-icon { font-size: 2.2rem; }
+  .cert-info h3 { font-weight: 800; font-size: 0.95rem; color: var(--orange); }
+  .cert-info p { font-size: 0.8rem; color: var(--text-soft); }
+
+  .btn-cert {
+    margin-top: 0.5rem;
+    padding: 0.5rem 1.1rem;
+    background: var(--orange);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 800;
+    cursor: pointer;
+  }
+
+  .cert-locked {
+    background: var(--teal-light);
+    border: 1px solid var(--teal);
+    border-radius: var(--radius-sm);
+    padding: 0.9rem 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    margin-bottom: 1rem;
+    font-size: 0.83rem;
+    color: var(--teal-dark);
+    font-weight: 600;
+  }
+
+  /* ══════════════ INFO CURSO ══════════════ */
+  .course-hero {
+    background: linear-gradient(135deg, var(--purple-light), var(--teal-light));
+    border-radius: var(--radius);
+    padding: 1.4rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--border);
+  }
+
+  .course-hero h2 {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.3rem;
+    color: var(--fuchsia);
+    margin-bottom: 0.4rem;
+  }
+
+  .course-hero p { font-size: 0.86rem; color: var(--text-soft); }
+
+  .course-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.8rem;
+  }
+
+  .tag {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 99px;
+    padding: 0.22rem 0.7rem;
+    font-size: 0.72rem;
+    color: var(--text-soft);
+    font-weight: 700;
+  }
+
+  .section-label {
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--teal);
+    margin: 1.2rem 0 0.6rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--teal-light);
+  }
+
+  .accordion-item {
+    background: var(--white);
+    border-radius: var(--radius-sm);
+    border: 1.5px solid var(--border);
+    margin-bottom: 0.5rem;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+
+  .accordion-header {
+    padding: 0.95rem 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 0.88rem;
+    gap: 0.5rem;
+    color: var(--text);
+  }
+
+  .accordion-header:hover { background: var(--teal-light); }
+
+  .accordion-arrow {
+    transition: transform 0.2s;
+    color: var(--teal);
+    flex-shrink: 0;
+    font-size: 0.8rem;
+  }
+
+  .accordion-arrow.open { transform: rotate(180deg); }
+
+  .accordion-body {
+    display: none;
+    padding: 0 1.1rem 1.1rem;
+    font-size: 0.85rem;
+    color: var(--text-soft);
+    border-top: 1px solid var(--teal-light);
+  }
+
+  .accordion-body.open { display: block; padding-top: 0.9rem; }
+  .accordion-body ul { padding-left: 1.2rem; }
+  .accordion-body li { margin-bottom: 0.3rem; }
+
+  .resource-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.8rem;
+    padding: 0.4rem 0.9rem;
+    background: var(--teal-light);
+    color: var(--teal-dark);
+    border-radius: 8px;
+    font-size: 0.78rem;
+    font-weight: 800;
+    text-decoration: none;
+    border: 1px solid var(--teal);
+  }
+
+  /* ══════════════ GESTACIÓN ══════════════ */
+  .trimester-tabs {
+    display: flex;
+    gap: 0.4rem;
+    margin-bottom: 1rem;
+    overflow-x: auto;
+    padding-bottom: 0.2rem;
+  }
+
+  .trimester-tab {
+    padding: 0.5rem 0.9rem;
+    border-radius: 99px;
+    border: 1.5px solid var(--border);
+    background: white;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    color: var(--text-soft);
+    transition: all 0.2s;
+  }
+
+  .trimester-tab.active {
+    background: var(--teal);
+    color: white;
+    border-color: var(--teal);
+  }
+
+  .trimester-content { display: none; }
+  .trimester-content.active { display: block; }
+
+  .info-block {
+    background: white;
+    border-radius: var(--radius-sm);
+    border: 1.5px solid var(--border);
+    padding: 1.1rem;
+    margin-bottom: 0.7rem;
+    box-shadow: var(--shadow);
+  }
+
+  .info-block h4 {
+    font-weight: 800;
+    font-size: 0.88rem;
+    margin-bottom: 0.5rem;
+    color: var(--teal-dark);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .info-block p, .info-block li {
+    font-size: 0.84rem;
+    color: var(--text-soft);
+    line-height: 1.7;
+  }
+
+  .info-block ul { padding-left: 1.2rem; }
+  .info-block li { margin-bottom: 0.2rem; }
+
+  /* ══════════════ CHECKLISTS ══════════════ */
+  .checklist-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .checklist-tab {
+    flex: 1;
+    padding: 0.65rem;
+    border-radius: var(--radius-sm);
+    border: 1.5px solid var(--border);
+    background: white;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: center;
+    color: var(--text-soft);
+    transition: all 0.2s;
+  }
+
+  .checklist-tab.active {
+    background: var(--fuchsia);
+    color: white;
+    border-color: var(--fuchsia);
+  }
+
+  .checklist-content { display: none; }
+  .checklist-content.active { display: block; }
+
+  .checklist-progress-bar {
+    background: var(--teal-light);
+    border-radius: var(--radius-sm);
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .checklist-progress-bar strong { color: var(--teal-dark); font-size: 0.95rem; }
+
+  .checklist-group { margin-bottom: 1.1rem; }
+
+  .checklist-group-title {
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--orange);
+    margin-bottom: 0.5rem;
+    padding-left: 0.2rem;
+  }
+
+  .checklist-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.7rem 0.9rem;
+    background: white;
+    border-radius: 10px;
+    border: 1.5px solid var(--border);
+    margin-bottom: 0.35rem;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .checklist-item:hover { background: var(--bg); }
+
+  .checklist-item.checked {
+    background: var(--teal-light);
+    border-color: var(--teal);
+  }
+
+  .check-box {
+    width: 24px; height: 24px;
+    border-radius: 7px;
+    border: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 0.8rem;
+    color: transparent;
+    transition: all 0.2s;
+    font-weight: 800;
+  }
+
+  .checklist-item.checked .check-box {
+    background: var(--teal);
+    border-color: var(--teal);
+    color: white;
+  }
+
+  .check-label {
+    font-size: 0.86rem;
+    font-weight: 600;
+    transition: color 0.15s;
+  }
+
+  .checklist-item.checked .check-label {
+    color: var(--text-soft);
+    text-decoration: line-through;
+  }
+
+  /* ══════════════ RECURSOS ══════════════ */
+  .resource-card {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 0.95rem 1.1rem;
+    background: white;
+    border-radius: var(--radius-sm);
+    border: 1.5px solid var(--border);
+    margin-bottom: 0.5rem;
+    text-decoration: none;
+    color: var(--text);
+    box-shadow: var(--shadow);
+    transition: transform 0.15s, border-color 0.15s;
+  }
+
+  .resource-card:hover { transform: translateY(-1px); border-color: var(--teal); }
+
+  .resource-type-icon {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+  }
+
+  .resource-type-icon.pdf { background: #FDECEA; }
+  .resource-type-icon.video { background: var(--teal-light); }
+  .resource-type-icon.web { background: var(--purple-light); }
+  .resource-type-icon.img { background: var(--orange-light); }
+
+  .resource-card-info h4 { font-size: 0.88rem; font-weight: 700; }
+  .resource-card-info p { font-size: 0.76rem; color: var(--text-soft); }
+
+  /* ══════════════ RESPIRACIÓN ══════════════ */
+  .breath-card {
+    background: white;
+    border-radius: var(--radius-sm);
+    border: 1.5px solid var(--border);
+    padding: 1rem 1.1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: var(--shadow);
+    margin-bottom: 0.5rem;
+  }
+
+  .breath-card:hover { border-color: var(--teal); }
+  .breath-card.selected { border-color: var(--teal); background: var(--teal-light); }
+
+  .breath-card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .breath-emoji { font-size: 1.5rem; }
+  .breath-card-title { font-weight: 800; font-size: 0.9rem; }
+  .breath-card-desc { font-size: 0.78rem; color: var(--text-soft); margin-top: 0.15rem; font-weight: 600; }
+
+  .nivel-selector {
+    display: none;
+    gap: 0.4rem;
+    margin-top: 0.8rem;
+    flex-wrap: wrap;
+  }
+
+  .breath-card.selected .nivel-selector { display: flex; }
+
+  .nivel-btn {
+    padding: 0.35rem 0.85rem;
+    border-radius: 99px;
+    border: 1.5px solid var(--teal);
+    background: white;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.76rem;
+    font-weight: 700;
+    cursor: pointer;
+    color: var(--teal-dark);
+    transition: all 0.2s;
+  }
+
+  .nivel-btn.active {
+    background: var(--teal);
+    color: white;
+  }
+
+  /* Timer */
+  #breath-timer-zone {
+    display: none;
+    text-align: center;
+    padding: 0.5rem 0 1rem;
+  }
+
+  .breath-instruction {
+    font-size: 0.88rem;
+    color: var(--text-soft);
+    margin-bottom: 1.5rem;
+    padding: 0.8rem 1rem;
+    background: var(--teal-light);
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    font-style: italic;
+    border-left: 3px solid var(--teal);
+    text-align: left;
+  }
+
+  .breath-bubble-wrap {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 1.2rem;
+  }
+
+  .breath-bubble {
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--teal-light), var(--teal));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    transition: transform 0.8s ease-in-out, background 0.8s ease;
+    box-shadow: 0 0 0 0 rgba(0,180,200,0.3);
+  }
+
+  .breath-phase-text {
+    color: white;
+    font-weight: 800;
+    font-size: 1rem;
+    letter-spacing: 0.03em;
+  }
+
+  .breath-phase-count {
+    color: rgba(255,255,255,0.9);
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    line-height: 1;
+    margin-top: 0.2rem;
+  }
+
+  .breath-cycle-label {
+    font-size: 0.82rem;
+    color: var(--text-soft);
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .breath-total-timer {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    color: var(--teal-dark);
+    margin-bottom: 0.8rem;
+    font-style: italic;
+  }
+
+  .btn-breath-start {
+    padding: 0.8rem 2rem;
+    background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+    color: white;
+    border: none;
+    border-radius: 99px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 800;
+    cursor: pointer;
+    margin: 0 0.3rem;
+  }
+
+  .btn-breath-stop {
+    padding: 0.8rem 2rem;
+    background: white;
+    color: var(--text-soft);
+    border: 1.5px solid var(--border);
+    border-radius: 99px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    margin: 0 0.3rem;
+  }
+
+  .breath-complete-msg {
+    display: none;
+    background: var(--teal-light);
+    border: 2px solid var(--teal);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    text-align: center;
+    margin-top: 1rem;
+  }
+
+  .breath-complete-msg h3 {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    color: var(--teal-dark);
+    font-size: 1.3rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .breath-complete-msg p { font-size: 0.86rem; color: var(--text-soft); font-weight: 600; }
+
+  /* Utils */
+  .hidden { display: none !important; }
+  .loading-spinner {
+    display: flex; align-items: center; justify-content: center;
+    padding: 2rem; color: var(--text-soft); font-size: 0.9rem; gap: 0.5rem; font-weight: 600;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .spinner {
+    width: 18px; height: 18px;
+    border: 2px solid var(--border);
+    border-top-color: var(--teal);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @media (max-width: 380px) {
+    .screen { padding: 1rem 0.9rem; }
+    .login-card { padding: 2rem 1.3rem; }
+    .login-brand { font-size: 1.7rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════════════ LOGIN ════════════════════ -->
+<div id="screen-login">
+  <div class="login-card">
+    <div class="login-header">
+      <div class="compensar-badge">✦ Compensar · Plan Complementario Especial</div>
+      <div class="login-title">Curso de preparación para la</div>
+      <div class="login-brand">Maternidad y Paternidad</div>
+      <div class="login-sub">Tu espacio personalizado de aprendizaje</div>
+    </div>
+    <hr class="login-divider">
+    <label class="login-label">Tu número de cédula</label>
+    <input type="text" id="cedula-input" class="login-input" placeholder="Ej: 1012345678" maxlength="12" inputmode="numeric">
+    <button class="btn-login" onclick="doLogin()">Entrar a mi portal →</button>
+    <div class="login-error" id="login-error">Cédula no encontrada. Verifica el número o comunícate con tu instructora.</div>
+    <div class="login-decorations">🌙 🚗 💛 ☁️</div>
+  </div>
+</div>
+
+<!-- ════════════════════ APP ════════════════════ -->
+<div id="app">
+
+  <header class="app-header">
+    <div class="header-left">
+      <div class="header-logo">🤰</div>
+      <div class="header-titles">
+        <div class="header-program">Futuros Padres · Compensar</div>
+        <div class="header-name" id="user-name-display">—</div>
+      </div>
+    </div>
+    <button class="btn-logout" onclick="doLogout()">Salir</button>
+  </header>
+
+  <!-- ── PROGRESO ── -->
+  <div class="screen active" id="screen-progreso">
+    <h1 class="screen-title">Mi Progreso</h1>
+    <p class="screen-subtitle">Sesiones asistidas al programa</p>
+
+    <div id="progress-loading" class="loading-spinner"><div class="spinner"></div> Cargando tus sesiones…</div>
+
+    <div id="progress-content" class="hidden">
+      <div class="progress-hero">
+        <div class="progress-pct" id="pct-display">0<span>%</span></div>
+        <div class="progress-legend" id="sessions-display">0 de 0 sesiones completadas</div>
+        <div class="progress-bar-wrap">
+          <div class="progress-bar-fill" id="progress-bar" style="width:0%"></div>
+        </div>
+      </div>
+
+      <div id="cert-available" class="cert-banner hidden">
+        <div class="cert-icon">🎓</div>
+        <div class="cert-info">
+          <h3>¡Certificado disponible!</h3>
+          <p>Completaste el 80% o más del programa. ¡Felicitaciones!</p>
+          <button class="btn-cert" onclick="downloadCert()">Descargar certificado</button>
+        </div>
+      </div>
+
+      <div id="cert-locked" class="cert-locked hidden">
+        🔒 El certificado se habilita al asistir al 80% de las sesiones.
+      </div>
+
+      <div class="section-label">Detalle de sesiones</div>
+      <div class="session-list" id="session-list"></div>
+    </div>
+  </div>
+
+  <!-- ── CRONOGRAMAS ── -->
+  <div class="screen" id="screen-cronogramas">
+    <h1 class="screen-title">Cronogramas</h1>
+    <p class="screen-subtitle">Consulta las clases disponibles este mes</p>
+
+    <div class="card" style="background:linear-gradient(135deg,var(--teal-light),var(--rose-pale));border:1px solid var(--border)">
+      <div class="card-title">📅 Julio 2026</div>
+      <p style="font-size:0.85rem;color:var(--text-soft);margin-bottom:1rem">Revisa el cronograma, elige tus clases y regístrate con anticipación.</p>
+    </div>
+
+    <div class="section-label">Clases disponibles</div>
+
+    <a href="https://drive.google.com/file/d/1bTWN1mOmOoeCc5uaWfTcRXzLum7yoxjE/view?usp=sharing" target="_blank" class="resource-card">
+      <div class="resource-type-icon pdf" style="background:#E8F4FD">📅</div>
+      <div class="resource-card-info">
+        <h4>Cronograma Julio 2026 · Presencial</h4>
+        <p>PDF · Sede Calle 127 · Toca para abrir</p>
+      </div>
+      <span style="font-size:1.2rem;color:var(--teal)">→</span>
+    </a>
+
+    <a href="https://drive.google.com/file/d/1eo_S1TNRUGsuEQ1H-ujf9i1frkzECVbL/view?usp=sharing" target="_blank" class="resource-card">
+      <div class="resource-type-icon pdf" style="background:var(--teal-light)">💻</div>
+      <div class="resource-card-info">
+        <h4>Cronograma Julio 2026 · Virtual</h4>
+        <p>PDF · Microsoft Teams · Toca para abrir</p>
+      </div>
+      <span style="font-size:1.2rem;color:var(--teal)">→</span>
+    </a>
+
+    <div class="card" style="background:linear-gradient(135deg,var(--teal-light),var(--rose-pale));border:1px solid var(--border);margin-top:1.2rem">
+      <div class="card-title">📅 Agosto 2026</div>
+      <p style="font-size:0.85rem;color:var(--text-soft);margin-bottom:1rem">Revisa el cronograma, elige tus clases y regístrate con anticipación.</p>
+    </div>
+
+    <a href="https://drive.google.com/file/d/1w6c2Gr55I7VbwZWzr61n5g-eF_BPt5-Z/view?usp=drive_link" target="_blank" class="resource-card">
+      <div class="resource-type-icon pdf" style="background:#E8F4FD">📅</div>
+      <div class="resource-card-info">
+        <h4>Cronograma Agosto 2026 · Presencial</h4>
+        <p>PDF · Sede Calle 127 · Toca para abrir</p>
+      </div>
+      <span style="font-size:1.2rem;color:var(--teal)">→</span>
+    </a>
+
+    <a href="https://drive.google.com/file/d/1mPbZl-RlpkXJvWfi-jPBWROs9H8mbKp1/view?usp=drive_link" target="_blank" class="resource-card">
+      <div class="resource-type-icon pdf" style="background:var(--teal-light)">💻</div>
+      <div class="resource-card-info">
+        <h4>Cronograma Agosto 2026 · Virtual</h4>
+        <p>PDF · Microsoft Teams · Toca para abrir</p>
+      </div>
+      <span style="font-size:1.2rem;color:var(--teal)">→</span>
+    </a>
+
+    <a href="https://drive.google.com/file/d/1qvJpvEwPouEosRnz7Sef46r12Es-dRoA/view?usp=drive_link" target="_blank" class="resource-card">
+      <div class="resource-type-icon pdf" style="background:#fdf0f5">🤱</div>
+      <div class="resource-card-info">
+        <h4>Cronograma Agosto 2026 · Postparto</h4>
+        <p>PDF · Toca para abrir</p>
+      </div>
+      <span style="font-size:1.2rem;color:var(--teal)">→</span>
+    </a>
+
+    <div class="card" style="margin-top:1rem">
+      <div class="card-title">💡 Recuerda</div>
+      <ul style="font-size:0.85rem;color:var(--text-soft);padding-left:1.2rem;line-height:2">
+        <li>Haz clic en el nombre de la clase para pre-registrarte</li>
+        <li>El link se habilita hasta las <strong>10 AM del día de la clase</strong> virtual</li>
+        <li>Para presenciales se inhabilita el <strong>viernes previo a las 10 AM</strong></li>
+        <li>¡Regístrate con anticipación!</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ── BIENVENIDA ── -->
+  <div class="screen" id="screen-bienvenida">
+    <h1 class="screen-title">Bienvenida al Curso</h1>
+    <p class="screen-subtitle">Información esencial para comenzar</p>
+    
+    <div class="card" style="text-align:center;padding:1.5rem">
+      <div style="font-size:2.5rem;margin-bottom:0.8rem">🤰</div>
+      <h2 style="font-family:Playfair Display,serif;font-style:italic;color:var(--fuchsia);font-size:1.3rem;margin-bottom:0.5rem">Curso de Preparación para la Maternidad y Paternidad</h2>
+      <p style="font-size:0.85rem;color:var(--text-soft)">Plan Complementario de Compensar</p>
+    </div>
+
+    <a href="https://drive.google.com/file/d/1CJVN1RQfNv-bqylLAGJ_QwVTZxHOc45N/view?usp=sharing" target="_blank" class="resource-card" style="margin-bottom:0.8rem">
+      <div class="resource-type-icon pdf">📄</div>
+      <div class="resource-card-info">
+        <h4>Información y Bienvenida al Curso 2026</h4>
+        <p>Toca para abrir el PDF completo</p>
+      </div>
+      <span style="font-size:1.2rem;color:var(--teal)">→</span>
+    </a>
+
+    <div class="card">
+      <div class="card-title">📋 Generalidades del programa</div>
+      <ul style="font-size:0.86rem;color:var(--text-soft);padding-left:1.2rem;line-height:2">
+        <li><strong>14 sesiones</strong> para parto natural</li>
+        <li><strong>12 sesiones</strong> para cesárea</li>
+        <li><strong>3 sesiones</strong> de postparto</li>
+        <li>Clases <strong>virtuales y presenciales</strong> en Sede Calle 127</li>
+        <li>Duración: <strong>1½ a 2 horas</strong> cada sesión</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-title">📅 ¿Cómo me registro a una clase?</div>
+      <ol style="font-size:0.86rem;color:var(--text-soft);padding-left:1.2rem;line-height:2">
+        <li>Abre el PDF del cronograma mensual</li>
+        <li>Haz clic en el nombre de la clase que deseas tomar</li>
+        <li>Completa el formulario de pre-registro</li>
+        <li>Recibirás un email con el link de confirmación</li>
+      </ol>
+      <p style="font-size:0.82rem;color:var(--orange);margin-top:0.8rem;font-weight:700">⏰ El link se habilita hasta las 10 AM del día de la clase virtual y el viernes previo para presenciales.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">💻 Recomendaciones en clase</div>
+      <ul style="font-size:0.86rem;color:var(--text-soft);padding-left:1.2rem;line-height:2">
+        <li>La sala de Teams se habilita <strong>5 minutos antes</strong></li>
+        <li>Al iniciar, haz clic en el link del <strong>CHAT de Teams</strong> para registrar tu asistencia</li>
+        <li>Mantén el <strong>micrófono en silencio</strong></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-title">📞 Contacto</div>
+      <p style="font-size:0.86rem;color:var(--text-soft)">Jennifer Voelkl Guevara<br>Fisioterapeuta · Educadora Prenatal</p>
+      <a href="https://wa.me/573202807731" target="_blank" style="display:inline-flex;align-items:center;gap:0.5rem;margin-top:0.8rem;padding:0.6rem 1rem;background:var(--teal-light);color:var(--teal-dark);border-radius:10px;font-size:0.85rem;font-weight:700;text-decoration:none;border:1px solid var(--teal)">
+        📱 320-2807731
+      </a>
+    </div>
+  </div>
+
+  <!-- ── INFORMACIÓN ── -->
+  <div class="screen" id="screen-info">
+    <h1 class="screen-title">El Curso</h1>
+    <p class="screen-subtitle">Información y contenidos del programa</p>
+
+    <div class="course-hero">
+      <h2>Educación para la Maternidad y Paternidad</h2>
+      <p>Programa integral de Compensar para acompañarte con información basada en evidencia en el camino más hermoso de tu vida.</p>
+      <div class="course-tags">
+        <span class="tag">Presencial y virtual</span>
+        <span class="tag">Gestantes y acompañantes</span>
+        <span class="tag">Basado en evidencia</span>
+        <span class="tag">Jennifer Voelkl · Fisioterapeuta</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🎯 Objetivo del programa</div>
+      <p style="font-size:0.86rem;color:var(--text-soft)">Brindar herramientas de educación, acompañamiento y preparación física y emocional para el proceso de gestación, parto, postparto y llegada del bebé, promoviendo el bienestar familiar desde la evidencia científica.</p>
+    </div>
+
+    <div class="section-label">Iniciando el curso</div>
+
+    <div class="accordion-item">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span>🤰 Nuestro embarazo</span>
+        <span class="accordion-arrow">▾</span>
+      </div>
+      <div class="accordion-body">
+        <p style="margin-bottom:0.6rem;font-size:0.82rem;color:var(--teal-dark);font-weight:700">📌 Clase de bienvenida — se recomienda como primera sesión</p>
+        <ul>
+          <li>Funcionamiento y estructura del programa</li>
+          <li>Cambios físicos y emocionales trimestre a trimestre</li>
+          <li>El rol del acompañante durante el embarazo y el parto</li>
+          <li>Actividad física segura en el embarazo</li>
+          <li>Preguntas frecuentes sobre el proceso</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span>🌬️ Técnicas de respiración</span>
+        <span class="accordion-arrow">▾</span>
+      </div>
+      <div class="accordion-body">
+        <p style="margin-bottom:0.6rem;font-size:0.82rem;color:var(--teal-dark);font-weight:700">📌 Clase fundamental — se recomienda tomar temprano en el embarazo</p>
+        <ul>
+          <li>Respiración diafragmática y su importancia</li>
+          <li>Técnicas para el trabajo de parto: jadeo y soplido</li>
+          <li>Respiración Surge (Hipnobirthing)</li>
+          <li>Respiración Ola Valiente — técnica propia del programa</li>
+          <li>Práctica guiada de cada técnica</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span>🎀 Taller de lactancia</span>
+        <span class="accordion-arrow">▾</span>
+      </div>
+      <div class="accordion-body">
+        <ul>
+          <li>Preparación para la lactancia en la gestación</li>
+          <li>Mitos y realidades sobre cuidados en la gestación</li>
+          <li>Herramientas y manejo de dificultades comunes en lactancia los primeros días</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section-label">1er y 2do trimestre</div>
+
+    <div class="accordion-item">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span>💛 Emociones en la gestación y el postparto</span>
+        <span class="accordion-arrow">▾</span>
+      </div>
+      <div class="accordion-body">
+        <ul>
+          <li>Cambios emocionales durante el embarazo</li>
+          <li>Ansiedad perinatal y miedo al parto</li>
+          <li>Baby blues: qué es y cuánto dura</li>
+          <li>Depresión postparto: síntomas y cuándo buscar ayuda</li>
+          <li>Vínculo afectivo con el bebé</li>
+          <li>Red de apoyo familiar y pareja</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span>🚨 Signos de alarma y vacunación</span>
+        <span class="accordion-arrow">▾</span>
+      </div>
+      <div class="accordion-body">
+        <ul>
+          <li>Signos de alarma en cada trimestre del embarazo</li>
+          <li>Cuándo acudir a urgencias</li>
+          <li>Vacunas recomendadas en el embarazo</li>
+          <li>Vacunas para acompañantes</li>
+          <li>Recomendaciones y manejo de visitas</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span>🥗 Nutrición para la gestación y el postparto</span>
+        <span class="accordion-arrow">▾</span>
+      </div>
+      <div class="accordion-body">
+        <ul>
+          <li>Requerimientos nutricionales en el embarazo y el postparto</li>
+          <li>Alimentos recomendados y alimentos a evitar</li>
+          <li>Suplementación: ácido fólico, hierro, calcio</li>
+          <li>Recomendaciones de manejo de: estreñimiento, hemorroides, acidez y gases</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section-label">3er trimestre</div>
+
+    <div class="accordion-item">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span>🤱 Lactancia materna</span>
+        <span class="accordion-arrow">▾</span>
+      </div>
+      <div class="accordion-body">
+        <ul>
+          <li>Beneficios de la lactancia para madre y bebé</li>
+          <li>Fisiología de la producción de leche</li>
+          <li>Lactancia a libre demanda</li>
+          <li>Apoyo del acompañante en la lactancia desde la hora 0</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span>🍼 Práctica de lactancia</span>
+        <span class="accordion-arrow">▾</span>
+      </div>
+      <div class="accordion-body">
+        <p style="margin-bottom:0.6rem;font-size:0.82rem;color:var(--teal-dark);font-weight:700">📌 Clase práctica con muñeco</p>
+        <ul>
+          <li>Práctica de extracción manual y masaje mamario</li>
+          <li>Repaso de posiciones y técnica de agarre</li>
+          <li>Técnica de agarre y posiciones de amamantamiento</li>
+          <li>Extracción y conservación de leche materna</li>
+          <li>Lactancia y retorno al trabajo</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span>🧘‍♀️ Cuidados postparto</span>
+        <span class="accordion-arrow">▾</span>
+      </div>
+      <div class="accordion-body">
+        <ul>
+          <li>Cambios físicos normales en el postparto</li>
+          <li>Cuidado de la herida perineal o cicatriz de cesárea</li>
+          <li>Loquios y recuperación uterina</li>
+          <li>Rehabilitación de piso pélvico: cuándo y por qué</li>
+          <li>Sexualidad y anticoncepción en el postparto</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span>🏥 Trabajo de parto, cesárea y anestesia</span>
+        <span class="accordion-arrow">▾</span>
+      </div>
+      <div class="accordion-body">
+        <p style="margin-bottom:0.6rem;font-size:0.82rem;color:var(--teal-dark);font-weight:700">📌 Recomendada a partir de semana 32</p>
+        <ul>
+          <li>Fases del trabajo de parto</li>
+          <li>Tipos de parto: vaginal, cesárea programada y de urgencia</li>
+          <li>Anestesia epidural y raquídea: qué esperar</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span>👶 Cuidados del recién nacido</span>
+        <span class="accordion-arrow">▾</span>
+      </div>
+      <div class="accordion-body">
+        <p style="margin-bottom:0.6rem;font-size:0.82rem;color:var(--teal-dark);font-weight:700">📌 Clase dictada por pediatra/neonatóloga</p>
+        <ul>
+          <li>Características normales del recién nacido</li>
+          <li>Procedimientos intrahospitalarios</li>
+          <li>Baño, higiene y cuidado del cordón umbilical</li>
+          <li>Sueño seguro y posiciones recomendadas</li>
+          <li>Vacunas del recién nacido y calendario</li>
+          <li>Signos de alarma en el neonato</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span>🍼 Cómo cuidar a mi bebé</span>
+        <span class="accordion-arrow">▾</span>
+      </div>
+      <div class="accordion-body">
+        <p style="margin-bottom:0.6rem;font-size:0.82rem;color:var(--teal-dark);font-weight:700">📌 Clase práctica sobre cuidados del bebé</p>
+        <ul>
+          <li>Cómo cargar y manipular al bebé de forma segura</li>
+          <li>Cambio de pañal y cuidado de la piel, gases, baño</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span>🏃‍♀️ Parto en movimiento</span>
+        <span class="accordion-arrow">▾</span>
+      </div>
+      <div class="accordion-body">
+        <p style="margin-bottom:0.6rem;font-size:0.82rem;color:var(--teal-dark);font-weight:700">📌 Recomendada a partir de semana 34 — parto natural</p>
+        <ul>
+          <li>Beneficios del movimiento en el trabajo de parto</li>
+          <li>Posiciones verticales y su evidencia científica</li>
+          <li>Uso de la pelota de pilates durante el trabajo de parto</li>
+          <li>Movimientos de cadera para favorecer el descenso del bebé</li>
+          <li>Recursos no farmacológicos para el manejo del dolor</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section-label">Semana 36.5 · Parto natural</div>
+
+    <div class="accordion-item">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span>💪 Pujo</span>
+        <span class="accordion-arrow">▾</span>
+      </div>
+      <div class="accordion-body">
+        <p style="margin-bottom:0.6rem;font-size:0.82rem;color:var(--teal-dark);font-weight:700">📌 Recomendada a partir de semana 36.5 — parto natural</p>
+        <ul>
+          <li>Fisiología del pujo</li>
+          <li>Técnicas de pujo dirigido y espontáneo</li>
+          <li>Posiciones para pujar</li>
+          <li>Respiración durante el pujo</li>
+          <li>Protección del periné durante el expulsivo</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section-label">Postparto</div>
+
+    <div class="accordion-item">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span>👶 Los primeros días de mi bebé</span>
+        <span class="accordion-arrow">▾</span>
+      </div>
+      <div class="accordion-body">
+        <p style="margin-bottom:0.6rem;font-size:0.82rem;color:var(--teal-dark);font-weight:700">📌 Tomar en los primeros días del postparto</p>
+        <ul>
+          <li>Acompañamiento los primeros días, checklist</li>
+          <li>Adaptación del bebé fuera del útero</li>
+          <li>Establecimiento de la lactancia en los primeros días</li>
+          <li>Rutinas básicas de sueño y alimentación</li>
+          <li>Señales de alarma en los primeros días</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span>🌱 Estimulación y desarrollo</span>
+        <span class="accordion-arrow">▾</span>
+      </div>
+      <div class="accordion-body">
+        <p style="margin-bottom:0.6rem;font-size:0.82rem;color:var(--teal-dark);font-weight:700">📌 Tomar con el bebé después del primer mes</p>
+        <ul>
+          <li>Desarrollo neurológico del bebé en el primer año</li>
+          <li>Estimulación sensorial: visual, auditiva, táctil</li>
+          <li>Juego como herramienta de desarrollo</li>
+          <li>Hitos del desarrollo mes a mes</li>
+          <li>Masaje infantil</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span>💪 Recuperación postparto</span>
+        <span class="accordion-arrow">▾</span>
+      </div>
+      <div class="accordion-body">
+        <p style="margin-bottom:0.6rem;font-size:0.82rem;color:var(--teal-dark);font-weight:700">📌 Tomar después del primer mes</p>
+        <ul>
+          <li>Ejercicio terapéutico en el postparto</li>
+          <li>Rehabilitación abdominal y diástasis recti</li>
+          <li>Ejercicios de piso pélvico progresivos</li>
+          <li>Retorno al deporte y actividad de alto impacto</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section-label">✨ Bonus</div>
+
+    <div class="accordion-item">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span>💻 Tecnologías en lactancia</span>
+        <span class="accordion-arrow">▾</span>
+      </div>
+      <div class="accordion-body">
+        <p style="margin-bottom:0.6rem;font-size:0.82rem;color:var(--orange);font-weight:700">✨ Clase adicional al curso</p>
+        <ul>
+          <li>Herramientas y accesorios útiles para la lactancia</li>
+          <li>Tipos de extractores de leche</li>
+          <li>Uso correcto del extractor eléctrico y manual</li>
+          <li>Conservación y transporte de leche materna</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span>🌟 Preparando tu llegada</span>
+        <span class="accordion-arrow">▾</span>
+      </div>
+      <div class="accordion-body">
+        <p style="margin-bottom:0.6rem;font-size:0.82rem;color:var(--orange);font-weight:700">✨ Clase adicional · Próximamente</p>
+        <ul>
+          <li>Derechos de la gestante durante el parto</li>
+          <li>Plan de parto: cómo elaborarlo</li>
+          <li>Servicios especiales Compensar</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── GESTACIÓN ── -->
+  <div class="screen" id="screen-gestacion">
+    <h1 class="screen-title">Gestación y Postparto</h1>
+    <p class="screen-subtitle">Información para cada etapa</p>
+
+    <div class="trimester-tabs">
+      <button class="trimester-tab active" onclick="showTrimester(this,'t1')">1er Trimestre</button>
+      <button class="trimester-tab" onclick="showTrimester(this,'t2')">2do Trimestre</button>
+      <button class="trimester-tab" onclick="showTrimester(this,'t3')">3er Trimestre</button>
+      <button class="trimester-tab" onclick="showTrimester(this,'pp')">Postparto</button>
+    </div>
+
+    <div class="trimester-content active" id="t1">
+      <div class="info-block">
+        <h4>🌱 FORMACIÓN · Semanas 1–12</h4>
+        <p>El primer trimestre es de grandes cambios hormonales. Tu cuerpo trabaja intensamente para crear una nueva vida, aunque por fuera aún no se note mucho.</p>
+      </div>
+      <div class="info-block">
+        <h4>💪 Cambios físicos frecuentes</h4>
+        <ul>
+          <li>Náuseas y vómitos, especialmente en la mañana</li>
+          <li>Sensibilidad aumentada en los senos</li>
+          <li>Fatiga intensa y necesidad de dormir más</li>
+          <li>Mayor frecuencia urinaria</li>
+          <li>Cambios en el apetito y antojos</li>
+        </ul>
+      </div>
+      <div class="info-block">
+        <h4>🧠 Emociones y bienestar</h4>
+        <p>Es completamente normal sentir una mezcla de alegría, ansiedad y dudas. Los cambios hormonales influyen directamente en el estado emocional. Busca apoyo en tu red familiar y en el programa.</p>
+      </div>
+      <div class="info-block">
+        <h4>📋 Recomendaciones clave</h4>
+        <ul>
+          <li>Tomar ácido fólico y suplementación prenatal según recomendación médica</li>
+          <li>Evitar alcohol, tabaco y automedicación</li>
+          <li>Primera ecografía según orden médica</li>
+          <li>Actividad física moderada si no hay contraindicaciones</li>
+          <li>Preparación del seno según recomendaciones de la Clase Taller de Lactancia 🤱</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="trimester-content" id="t2">
+      <div class="info-block">
+        <h4>🌟 DESARROLLO · Semanas 13–27</h4>
+        <p>Muchas mamás describen el segundo trimestre como el más llevadero. Las náuseas suelen disminuir y empieza a sentirse el movimiento del bebé.</p>
+      </div>
+      <div class="info-block">
+        <h4>💪 Cambios físicos</h4>
+        <ul>
+          <li>Desaparecen las náuseas en la mayoría de los casos</li>
+          <li>Primer movimiento fetal (semana 18–22)</li>
+          <li>Crecimiento visible del abdomen</li>
+          <li>Posibles dolores de espalda y pelvis</li>
+          <li>Línea alba y cambios en la piel</li>
+        </ul>
+      </div>
+      <div class="info-block">
+        <h4>🏃‍♀️ Actividad física</h4>
+        <p>Ideal para iniciar o continuar ejercicios de bajo impacto: caminata, yoga prenatal, pilates mat adaptado, esferodinamia y ejercicios de piso pélvico.</p>
+      </div>
+      <div class="info-block">
+        <h4>📋 Recomendaciones</h4>
+        <ul>
+          <li>Ecografía morfológica y prueba de glucosa según orden médica</li>
+          <li>Planificar el plan de parto</li>
+          <li>Continuar con Curso de preparación a la Maternidad y Paternidad</li>
+          <li>Preparación del seno según recomendaciones de la Clase Taller de Lactancia 🤱</li>
+          <li>Continuar con ejercicios de respiración de la Clase: Técnicas de Respiración 🌬️</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="trimester-content" id="t3">
+      <div class="info-block">
+        <h4>🌈 CRECIMIENTO · Semanas 28–40+</h4>
+        <p>La recta final. Tu bebé crece rápidamente y tu cuerpo se prepara para el parto. Es el momento de tenerlo todo listo con calma.</p>
+      </div>
+      <div class="info-block">
+        <h4>💪 Cambios físicos</h4>
+        <ul>
+          <li>Mayor peso y presión pélvica</li>
+          <li>Contracciones de Braxton Hicks (de práctica)</li>
+          <li>Dificultad para dormir y encontrar posiciones cómodas</li>
+          <li>Acidez y reflujo</li>
+          <li>Edema en pies y tobillos</li>
+        </ul>
+      </div>
+      <div class="info-block">
+        <h4>🏥 Señales de trabajo de parto</h4>
+        <ul>
+          <li>Contracciones regulares cada 5 min, 1 min de duración, por 1 hora</li>
+          <li>Ruptura de membranas (bolsa de agua)</li>
+          <li>Expulsión del tapón mucoso — sigue las recomendaciones de tu médico</li>
+        </ul>
+      </div>
+      <div class="info-block">
+        <h4>📋 Lista de verificación</h4>
+        <ul>
+          <li>Maleta lista para la clínica (semana 34)</li>
+          <li>Plan de parto firmado</li>
+          <li>Carnet de vacunación al día</li>
+          <li>Silla de carro instalada</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="trimester-content" id="pp">
+      <div class="info-block">
+        <h4>🤱 Las primeras semanas</h4>
+        <p>El postparto es una etapa de profunda transformación. Tu cuerpo se recupera mientras te adaptas a tu nuevo rol. Es completamente normal que sea intenso.</p>
+      </div>
+      <div class="info-block">
+        <h4>🔄 Recuperación física</h4>
+        <ul>
+          <li>Loquios (sangrado postparto) hasta 6 semanas</li>
+          <li>Dolor perineal o cicatriz de cesárea</li>
+          <li>Ingurgitación mamaria al bajar la leche</li>
+          <li>Sudoración nocturna por cambios hormonales</li>
+          <li>¡Mucha sed si estás lactando!</li>
+        </ul>
+      </div>
+      <div class="info-block">
+        <h4>🧘‍♀️ Rehabilitación de piso pélvico y recuperación postparto</h4>
+        <p>Fundamental iniciar la rehabilitación con una fisioterapeuta especializada. No esperes tener síntomas para consultar — la prevención es clave. Consulta a tu fisioterapeuta de piso pélvico o tu ginecólogo en caso de presentar algún síntoma, o simplemente como método de prevención.</p>
+      </div>
+      <div class="info-block">
+        <h4>💛 Salud mental</h4>
+        <ul>
+          <li><strong>Baby blues:</strong> tristeza leve los primeros días, es normal y pasajero</li>
+          <li><strong>Depresión postparto:</strong> si dura más de 2 semanas, busca ayuda profesional</li>
+          <li>Pide apoyo — no tienes que hacerlo sola</li>
+        </ul>
+      </div>
+      <div class="info-block">
+        <h4>📋 Recomendaciones</h4>
+        <ul>
+          <li>Afiliación de tu bebé a servicios de salud (EPS, Plan Complementario, Prepagada, Caja de Compensación) — ¡tu agente de WhatsApp te puede ayudar!</li>
+          <li>Cita de control tuyo y del recién nacido</li>
+          <li>Verificar acceso a los programas: Binomio madre e hijo (visita EMI) + Regreso seguro a casa (Alma Health)</li>
+          <li>Mantenerte en contacto con tu profe para tomar: Los primeros días de mi bebé · Recuperación postparto · Estimulación y Desarrollo</li>
+          <li>Solicita tu cita de consulta en lactancia a través de la app o call center</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CHECKLISTS ── -->
+  <div class="screen" id="screen-checklists">
+    <h1 class="screen-title">Checklists</h1>
+    <p class="screen-subtitle">Prepara todo a tiempo</p>
+
+    <div class="checklist-tabs" style="flex-wrap:wrap;gap:0.4rem">
+      <button class="checklist-tab active" onclick="showChecklist(this,'cl-parto')">🏥 General</button>
+      <button class="checklist-tab" onclick="showChecklist(this,'cl-cobos')">Los Cobos</button>
+      <button class="checklist-tab" onclick="showChecklist(this,'cl-country')">Del Country</button>
+      <button class="checklist-tab" onclick="showChecklist(this,'cl-mujer')">De la Mujer</button>
+      <button class="checklist-tab" onclick="showChecklist(this,'cl-palermo')">Palermo</button>
+      <button class="checklist-tab" onclick="showChecklist(this,'cl-bebe')">👶 Primeros días</button>
+    </div>
+
+    <!-- MALETA DE PARTO -->
+    <div class="checklist-content active" id="cl-parto">
+      <a href="https://drive.google.com/file/d/1FBE0kdgq4NY_UqFqwMvOxaYePXilDR8y/view?usp=sharing" target="_blank" style="display:flex;align-items:center;gap:0.7rem;padding:0.7rem 1rem;background:var(--teal-light);border:1px solid var(--teal);border-radius:var(--radius-sm);margin-bottom:0.8rem;text-decoration:none;">
+        <span style="font-size:1.3rem">🌸</span>
+        <div>
+          <div style="font-size:0.85rem;font-weight:700;color:var(--teal-dark)">Descargar lista completa · Ft. Jennifer Voelkl</div>
+          <div style="font-size:0.75rem;color:var(--text-soft)">PDF descargable · @fisiopisopelvico</div>
+        </div>
+        <span style="margin-left:auto;color:var(--teal);font-size:1.1rem">↓</span>
+      </a>
+      <div class="checklist-progress-bar">
+        <span style="font-size:0.85rem;font-weight:700">Completado: <strong id="parto-pct">0%</strong></span>
+        <span style="font-size:0.8rem;color:var(--text-soft);font-weight:600" id="parto-count">0 de 0</span>
+      </div>
+      <div class="checklist-group">
+        <div class="checklist-group-title">Para la mamá</div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="parto"><div class="check-box">✓</div><span class="check-label">Carnet de control prenatal</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="parto"><div class="check-box">✓</div><span class="check-label">Cédula de ciudadanía</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="parto"><div class="check-box">✓</div><span class="check-label">Documento de afiliación EPS</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="parto"><div class="check-box">✓</div><span class="check-label">Ropa cómoda y abrigada</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="parto"><div class="check-box">✓</div><span class="check-label">Medias antideslizantes</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="parto"><div class="check-box">✓</div><span class="check-label">Bata o camisón de apertura frontal</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="parto"><div class="check-box">✓</div><span class="check-label">Sostén de lactancia (x2)</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="parto"><div class="check-box">✓</div><span class="check-label">Toallas higiénicas de maternidad</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="parto"><div class="check-box">✓</div><span class="check-label">Artículos de higiene personal</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="parto"><div class="check-box">✓</div><span class="check-label">Snacks y bebidas energéticas</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="parto"><div class="check-box">✓</div><span class="check-label">Cargador del celular</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="parto"><div class="check-box">✓</div><span class="check-label">Plan de parto impreso</span></div>
+      </div>
+      <div class="checklist-group">
+        <div class="checklist-group-title">Para el bebé</div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="parto"><div class="check-box">✓</div><span class="check-label">Ropa de salida (body, mameluco, gorro)</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="parto"><div class="check-box">✓</div><span class="check-label">Cobija o arrullo</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="parto"><div class="check-box">✓</div><span class="check-label">Pañales recién nacido (paquete pequeño)</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="parto"><div class="check-box">✓</div><span class="check-label">Toallitas húmedas sin fragancia</span></div>
+      </div>
+      <div class="checklist-group">
+        <div class="checklist-group-title">Para el acompañante</div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="parto"><div class="check-box">✓</div><span class="check-label">Ropa cómoda y cambio extra</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="parto"><div class="check-box">✓</div><span class="check-label">Cédula de ciudadanía</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="parto"><div class="check-box">✓</div><span class="check-label">Algo para comer y bebidas</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="parto"><div class="check-box">✓</div><span class="check-label">Cargador y audífonos</span></div>
+      </div>
+    </div>
+
+    <!-- PRIMEROS DÍAS -->
+    <div class="checklist-content" id="cl-bebe">
+      <div class="checklist-progress-bar">
+        <span style="font-size:0.85rem;font-weight:700">Completado: <strong id="bebe-pct">0%</strong></span>
+        <span style="font-size:0.8rem;color:var(--text-soft);font-weight:600" id="bebe-count">0 de 0</span>
+      </div>
+      <div class="checklist-group">
+        <div class="checklist-group-title">Dormitorio</div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="bebe"><div class="check-box">✓</div><span class="check-label">Cuna o moisés en cuarto de padres</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="bebe"><div class="check-box">✓</div><span class="check-label">Colchón firme y funda impermeable</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="bebe"><div class="check-box">✓</div><span class="check-label">Sábanas de algodón (x3)</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="bebe"><div class="check-box">✓</div><span class="check-label">Arrullo o swaddle para dormir</span></div>
+      </div>
+      <div class="checklist-group">
+        <div class="checklist-group-title">Alimentación</div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="bebe"><div class="check-box">✓</div><span class="check-label">Cojín de lactancia</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="bebe"><div class="check-box">✓</div><span class="check-label">Sostenes de lactancia (x3)</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="bebe"><div class="check-box">✓</div><span class="check-label">Discos absorbentes</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="bebe"><div class="check-box">✓</div><span class="check-label">Crema para pezones (lanolina)</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="bebe"><div class="check-box">✓</div><span class="check-label">Biberones (por si se necesitan)</span></div>
+      </div>
+      <div class="checklist-group">
+        <div class="checklist-group-title">Higiene y cuidado</div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="bebe"><div class="check-box">✓</div><span class="check-label">Bañera para bebé</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="bebe"><div class="check-box">✓</div><span class="check-label">Jabón y shampoo sin fragancia</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="bebe"><div class="check-box">✓</div><span class="check-label">Toallas suaves (x3)</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="bebe"><div class="check-box">✓</div><span class="check-label">Pañales — stock del primer mes</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="bebe"><div class="check-box">✓</div><span class="check-label">Toallitas húmedas sin alcohol</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="bebe"><div class="check-box">✓</div><span class="check-label">Crema de pañal (óxido de zinc)</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="bebe"><div class="check-box">✓</div><span class="check-label">Cortaúñas para bebé</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="bebe"><div class="check-box">✓</div><span class="check-label">Termómetro digital</span></div>
+      </div>
+      <div class="checklist-group">
+        <div class="checklist-group-title">Ropa</div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="bebe"><div class="check-box">✓</div><span class="check-label">Bodies manga larga y corta (x6)</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="bebe"><div class="check-box">✓</div><span class="check-label">Pijamas o mamelucos (x4)</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="bebe"><div class="check-box">✓</div><span class="check-label">Gorros de algodón (x3)</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="bebe"><div class="check-box">✓</div><span class="check-label">Calcetines (x4 pares)</span></div>
+      </div>
+      <div class="checklist-group">
+        <div class="checklist-group-title">Salud y seguridad</div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="bebe"><div class="check-box">✓</div><span class="check-label">Silla para automóvil instalada</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="bebe"><div class="check-box">✓</div><span class="check-label">Coche o cargador ergonómico</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="bebe"><div class="check-box">✓</div><span class="check-label">Succionador nasal</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="bebe"><div class="check-box">✓</div><span class="check-label">Agendar primer control antes de salir de clínica</span></div>
+      </div>
+    </div>
+
+    <!-- COBOS -->
+    <div class="checklist-content" id="cl-cobos">
+      <div style="background:var(--teal-light);border:1px solid var(--teal);border-radius:var(--radius-sm);padding:0.8rem 1rem;margin-bottom:1rem;font-size:0.83rem;color:var(--teal-dark);font-weight:600">
+        🏥 Los Cobos Medical Center · Cra 9 #131A-40
+        <a href="https://drive.google.com/file/d/1ZODU9c1aWLVIauAVxGAnBV04kdnvCbVW/view?usp=sharing" target="_blank" style="display:block;margin-top:0.4rem;color:var(--teal-dark);font-weight:700">📄 Descargar lista oficial</a>
+      </div>
+      <div class="checklist-progress-bar">
+        <span style="font-size:0.85rem;font-weight:700">Completado: <strong id="cobos-pct">0%</strong></span>
+        <span style="font-size:0.8rem;color:var(--text-soft);font-weight:600" id="cobos-count">0 de 0</span>
+      </div>
+      <div class="checklist-group">
+        <div class="checklist-group-title">Para el bebé — sala de partos</div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="cobos"><div class="check-box">✓</div><span class="check-label">Primer ajuar: gorro, camisetas, pantalón, saco y medias</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="cobos"><div class="check-box">✓</div><span class="check-label">3 pañales para recién nacido</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="cobos"><div class="check-box">✓</div><span class="check-label">Paquete pequeño de pañitos húmedos</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="cobos"><div class="check-box">✓</div><span class="check-label">Cobija mediana</span></div>
+      </div>
+      <div class="checklist-group">
+        <div class="checklist-group-title">Para la mamá — sala de partos</div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="cobos"><div class="check-box">✓</div><span class="check-label">5 pañales de adulto talla L de cintas (NO tipo panty)</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="cobos"><div class="check-box">✓</div><span class="check-label">Pijama tipo bata, manga corta, con abertura delantera, SIN pantalón</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="cobos"><div class="check-box">✓</div><span class="check-label">Pantuflas (No si está programada para cesárea)</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="cobos"><div class="check-box">✓</div><span class="check-label">Carpeta del control prenatal</span></div>
+      </div>
+      <div class="checklist-group">
+        <div class="checklist-group-title">Para la habitación — después del nacimiento</div>
+        <div class="checklist-group-title" style="font-size:0.75rem;color:var(--teal-dark);margin-top:-0.3rem;margin-bottom:0.5rem">Recién nacido</div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="cobos"><div class="check-box">✓</div><span class="check-label">Otra cobija térmica</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="cobos"><div class="check-box">✓</div><span class="check-label">1 paquete de pañales para recién nacido</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="cobos"><div class="check-box">✓</div><span class="check-label">1 paquete grande de pañitos húmedos</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="cobos"><div class="check-box">✓</div><span class="check-label">Ropa extra para el bebé</span></div>
+        <div class="checklist-group-title" style="font-size:0.75rem;color:var(--teal-dark);margin-top:0.5rem;margin-bottom:0.5rem">Mamá</div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="cobos"><div class="check-box">✓</div><span class="check-label">Pantuflas</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="cobos"><div class="check-box">✓</div><span class="check-label">1 paquete de toallas maternas</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="cobos"><div class="check-box">✓</div><span class="check-label">Pijamas y ropa cómoda</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="cobos"><div class="check-box">✓</div><span class="check-label">Implementos de aseo personal</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="cobos"><div class="check-box">✓</div><span class="check-label">Pantys suficientes</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="cobos"><div class="check-box">✓</div><span class="check-label">Toalla para el cuerpo</span></div>
+      </div>
+      <div style="background:var(--orange-light);border-radius:var(--radius-sm);padding:0.8rem;font-size:0.82rem;color:var(--orange);font-weight:600;margin-top:0.5rem">
+        ⚠️ Venir sin maquillaje, sin esmalte y sin joyas ni accesorios
+      </div>
+    </div>
+
+    <!-- COUNTRY -->
+    <div class="checklist-content" id="cl-country">
+      <div style="background:var(--teal-light);border:1px solid var(--teal);border-radius:var(--radius-sm);padding:0.8rem 1rem;margin-bottom:1rem;font-size:0.83rem;color:var(--teal-dark);font-weight:600">
+        🏥 Clínica del Country
+        <a href="https://drive.google.com/file/d/1kvnf-YjX-FlaQGDbhRr5-LO8sziDJ8ix/view?usp=sharing" target="_blank" style="display:block;margin-top:0.4rem;color:var(--teal-dark);font-weight:700">📄 Descargar lista oficial</a>
+      </div>
+      <div class="checklist-progress-bar">
+        <span style="font-size:0.85rem;font-weight:700">Completado: <strong id="country-pct">0%</strong></span>
+        <span style="font-size:0.8rem;color:var(--text-soft);font-weight:600" id="country-count">0 de 0</span>
+      </div>
+      <div style="background:var(--teal-light);border-radius:var(--radius-sm);padding:0.7rem;font-size:0.82rem;color:var(--teal-dark);margin-bottom:0.8rem">
+        📌 Todo debe venir dentro de una bolsa de plástico marcada con el nombre de la mamá y el número de cédula
+      </div>
+      <div class="checklist-group">
+        <div class="checklist-group-title">Básico para sala de partos — Para la mamá</div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="country"><div class="check-box">✓</div><span class="check-label">3 pañales de adulto desechables</span></div>
+      </div>
+      <div class="checklist-group">
+        <div class="checklist-group-title">Básico para sala de partos — Para el bebé</div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="country"><div class="check-box">✓</div><span class="check-label">2 pañales de recién nacido</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="country"><div class="check-box">✓</div><span class="check-label">1 prenda enteriza manga corta</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="country"><div class="check-box">✓</div><span class="check-label">1 prenda enteriza manga larga</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="country"><div class="check-box">✓</div><span class="check-label">1 par de medias</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="country"><div class="check-box">✓</div><span class="check-label">1 vestido abrigado (saco y pantalón)</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="country"><div class="check-box">✓</div><span class="check-label">1 gorro</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="country"><div class="check-box">✓</div><span class="check-label">1 cobija pequeña</span></div>
+      </div>
+      <div class="checklist-group">
+        <div class="checklist-group-title">Para la habitación</div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="country"><div class="check-box">✓</div><span class="check-label">1 toalla de baño para el bebé y 1 para la mamá</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="country"><div class="check-box">✓</div><span class="check-label">1 cobija grande para el bebé</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="country"><div class="check-box">✓</div><span class="check-label">Implementos de aseo personal y prendas de vestir</span></div>
+      </div>
+      <div class="checklist-group">
+        <div class="checklist-group-title">Recomendados</div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="country"><div class="check-box">✓</div><span class="check-label">3 mudas completas para el bebé</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="country"><div class="check-box">✓</div><span class="check-label">1 paquete de pañales para recién nacido</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="country"><div class="check-box">✓</div><span class="check-label">Pañitos húmedos para el bebé</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="country"><div class="check-box">✓</div><span class="check-label">Pañales de adulto desechables</span></div>
+      </div>
+    </div>
+
+    <!-- CLÍNICA DE LA MUJER -->
+    <div class="checklist-content" id="cl-mujer">
+      <div style="background:var(--teal-light);border:1px solid var(--teal);border-radius:var(--radius-sm);padding:0.8rem 1rem;margin-bottom:1rem;font-size:0.83rem;color:var(--teal-dark);font-weight:600">
+        🏥 Clínica de la Mujer · Cra 19C No. 91-17
+        <a href="https://drive.google.com/file/d/1WcClVi_FtNMynAnbHKKe5Ve784w9SnEI/view?usp=sharing" target="_blank" style="display:block;margin-top:0.4rem;color:var(--teal-dark);font-weight:700">📄 Descargar lista oficial</a>
+      </div>
+      <div class="checklist-progress-bar">
+        <span style="font-size:0.85rem;font-weight:700">Completado: <strong id="mujer-pct">0%</strong></span>
+        <span style="font-size:0.8rem;color:var(--text-soft);font-weight:600" id="mujer-count">0 de 0</span>
+      </div>
+      <div class="checklist-group">
+        <div class="checklist-group-title">Mamá</div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="mujer"><div class="check-box">✓</div><span class="check-label">2 ó 3 pijamas (preferiblemente blusa y pantalón)</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="mujer"><div class="check-box">✓</div><span class="check-label">3 ó 4 juegos de ropa interior amplia</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="mujer"><div class="check-box">✓</div><span class="check-label">2 brassieres de maternidad</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="mujer"><div class="check-box">✓</div><span class="check-label">1 paquete de pañales desechables para adulto o 1 paquete de toallas higiénicas de maternidad</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="mujer"><div class="check-box">✓</div><span class="check-label">1 par de pantuflas amplias y cómodas</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="mujer"><div class="check-box">✓</div><span class="check-label">Elementos de aseo personal</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="mujer"><div class="check-box">✓</div><span class="check-label">2 toallas de baño</span></div>
+      </div>
+      <div class="checklist-group">
+        <div class="checklist-group-title">Bebé</div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="mujer"><div class="check-box">✓</div><span class="check-label">3 ó 4 vestidos de tela o algodón (preferiblemente saco-pantalón)</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="mujer"><div class="check-box">✓</div><span class="check-label">3 ó 4 camisas manga corta</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="mujer"><div class="check-box">✓</div><span class="check-label">3 ó 4 camisas manga larga o bodies</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="mujer"><div class="check-box">✓</div><span class="check-label">3 ó 4 pares de medias — 3 gorros</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="mujer"><div class="check-box">✓</div><span class="check-label">1 paquete de pañales desechables</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="mujer"><div class="check-box">✓</div><span class="check-label">Elementos de aseo en presentación pequeña (cepillos húmedos, jabón, shampoo)</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="mujer"><div class="check-box">✓</div><span class="check-label">3 baberos o toallitas pequeñas</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="mujer"><div class="check-box">✓</div><span class="check-label">3 cobertores (2 grandes y 1 pequeño)</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="mujer"><div class="check-box">✓</div><span class="check-label">1 toalla para bebé</span></div>
+      </div>
+      <div class="checklist-group">
+        <div class="checklist-group-title">Para la sala de partos</div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="mujer"><div class="check-box">✓</div><span class="check-label">2 cobertores (1 grande y 1 pequeño)</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="mujer"><div class="check-box">✓</div><span class="check-label">Saco, pantalón, camisa manga corta, camisa manga larga, gorro, par de medias</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="mujer"><div class="check-box">✓</div><span class="check-label">1 pañal desechable-bebé</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="mujer"><div class="check-box">✓</div><span class="check-label">1 pañal desechable adulto o 2 toallas higiénicas de maternidad</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="mujer"><div class="check-box">✓</div><span class="check-label">1 interior amplio (únicamente si tiene toallas higiénicas de maternidad)</span></div>
+      </div>
+      <div class="checklist-group">
+        <div class="checklist-group-title">Acompañante en la noche</div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="mujer"><div class="check-box">✓</div><span class="check-label">1 pijama</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="mujer"><div class="check-box">✓</div><span class="check-label">1 muda de ropa completa</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="mujer"><div class="check-box">✓</div><span class="check-label">1 toalla de baño</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="mujer"><div class="check-box">✓</div><span class="check-label">Elementos de aseo personal</span></div>
+      </div>
+    </div>
+
+    <!-- PALERMO -->
+    <div class="checklist-content" id="cl-palermo">
+      <div style="background:var(--teal-light);border:1px solid var(--teal);border-radius:var(--radius-sm);padding:0.8rem 1rem;margin-bottom:1rem;font-size:0.83rem;color:var(--teal-dark);font-weight:600">
+        🏥 Clínica Palermo
+        <a href="https://drive.google.com/file/d/1RLI4f5CjRgTNhfeBC_ZJFNBF5Sk1eUm4/view?usp=sharing" target="_blank" style="display:block;margin-top:0.4rem;color:var(--teal-dark);font-weight:700">📄 Descargar lista oficial</a>
+      </div>
+      <div class="checklist-progress-bar">
+        <span style="font-size:0.85rem;font-weight:700">Completado: <strong id="palermo-pct">0%</strong></span>
+        <span style="font-size:0.8rem;color:var(--text-soft);font-weight:600" id="palermo-count">0 de 0</span>
+      </div>
+      <div class="checklist-group">
+        <div class="checklist-group-title">Para el padre/acompañante</div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="palermo"><div class="check-box">✓</div><span class="check-label">Documentos de identidad</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="palermo"><div class="check-box">✓</div><span class="check-label">Exámenes y ecografías del control prenatal</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="palermo"><div class="check-box">✓</div><span class="check-label">Órdenes y otros documentos solicitados por el médico, anestesiólogo o la clínica</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="palermo"><div class="check-box">✓</div><span class="check-label">Dos pijamas</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="palermo"><div class="check-box">✓</div><span class="check-label">Ropa interior</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="palermo"><div class="check-box">✓</div><span class="check-label">Dos brassieres para lactancia</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="palermo"><div class="check-box">✓</div><span class="check-label">Sandalias o chanclas antideslizantes para baño</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="palermo"><div class="check-box">✓</div><span class="check-label">Dos pañales adulto</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="palermo"><div class="check-box">✓</div><span class="check-label">Jabón</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="palermo"><div class="check-box">✓</div><span class="check-label">Toallas higiénicas para maternas</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="palermo"><div class="check-box">✓</div><span class="check-label">Champú para cabello</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="palermo"><div class="check-box">✓</div><span class="check-label">Crema y cepillo dental</span></div>
+      </div>
+      <div class="checklist-group">
+        <div class="checklist-group-title">Para el bebé</div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="palermo"><div class="check-box">✓</div><span class="check-label">3 ó 4 pijamas de algodón</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="palermo"><div class="check-box">✓</div><span class="check-label">Tres camisetas y un body de algodón</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="palermo"><div class="check-box">✓</div><span class="check-label">Gorros y medias</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="palermo"><div class="check-box">✓</div><span class="check-label">Cobija</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="palermo"><div class="check-box">✓</div><span class="check-label">Pañales</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="palermo"><div class="check-box">✓</div><span class="check-label">Pañitos húmedos</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="palermo"><div class="check-box">✓</div><span class="check-label">Una toalla</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="palermo"><div class="check-box">✓</div><span class="check-label">Dos babones</span></div>
+        <div class="checklist-item" onclick="toggleCheck(this)" data-list="palermo"><div class="check-box">✓</div><span class="check-label">Dos cobijas</span></div>
+      </div>
+      <div style="background:var(--orange-light);border-radius:var(--radius-sm);padding:0.8rem;font-size:0.82rem;color:var(--orange);font-weight:600;margin-top:0.5rem">
+        ⚠️ No llevar joyas ni objetos de valor, venir sin maquillaje ni esmalte
+      </div>
+    </div>
+
+    </div>
+  </div>
+
+  <!-- ── RESPIRACIÓN ── -->
+  <div class="screen" id="screen-respiracion">
+    <h1 class="screen-title">Respiración</h1>
+    <p class="screen-subtitle">Practica tus técnicas guiadas</p>
+
+    <div id="breath-selector">
+      <div class="breath-card" onclick="selectBreath(this,'lenta')">
+        <div class="breath-card-header">
+          <span class="breath-emoji">🌬️</span>
+          <div>
+            <div class="breath-card-title">Respiración lenta y profunda</div>
+            <div class="breath-card-desc">Relajación general · Cualquier momento del día</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="breath-card" onclick="selectBreath(this,'surge')">
+        <div class="breath-card-header">
+          <span class="breath-emoji">🌊</span>
+          <div>
+            <div class="breath-card-title">Respiración Surge · Hipnobirthing</div>
+            <div class="breath-card-desc">Respiración lenta ascendente · Acompaña el surge</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="breath-card" onclick="selectBreath(this,'ola')">
+        <div class="breath-card-header">
+          <span class="breath-emoji">🌊✨</span>
+          <div>
+            <div class="breath-card-title">Respiración Ola Valiente</div>
+            <div class="breath-card-desc">Técnica Jennifer Voelkl · Elige tu nivel</div>
+          </div>
+        </div>
+        <div class="nivel-selector" id="nivel-selector">
+          <button class="nivel-btn active" onclick="setNivel(event,1)">Nivel 1 · 3-2-6-2</button>
+          <button class="nivel-btn" onclick="setNivel(event,2)">Nivel 2 · 4-2-8-2</button>
+          <button class="nivel-btn" onclick="setNivel(event,3)">Nivel 3 · 5-2-10-2</button>
+        </div>
+      </div>
+
+      <div class="breath-card" onclick="selectBreath(this,'parto')">
+        <div class="breath-card-header">
+          <span class="breath-emoji">💨</span>
+          <div>
+            <div class="breath-card-title">Respiración para expulsivo: jadeo</div>
+            <div class="breath-card-desc">Jadeo x4 · Soplido · Pausa · Durante el expulsivo</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="breath-card" onclick="selectBreath(this,'soplido')">
+        <div class="breath-card-header">
+          <span class="breath-emoji">🌬️</span>
+          <div>
+            <div class="breath-card-title">Respiración para expulsivo: soplido</div>
+            <div class="breath-card-desc">Soplido x4 · Jadeo · Pausa · Durante el expulsivo</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="breath-timer-zone">
+        <div class="breath-instruction" id="breath-instruction-text">Selecciona una técnica para comenzar</div>
+        <div class="breath-bubble-wrap">
+          <div class="breath-bubble" id="breath-bubble">
+            <div class="breath-phase-text" id="phase-text">Lista</div>
+            <div class="breath-phase-count" id="phase-count">—</div>
+          </div>
+        </div>
+        <div class="breath-cycle-label" id="cycle-label"></div>
+        <div class="breath-total-timer" id="total-timer">1:30</div>
+        <div>
+          <button class="btn-breath-start" id="btn-start" onclick="startBreath()">Iniciar</button>
+          <button class="btn-breath-stop hidden" id="btn-stop" onclick="stopBreath()">Detener</button>
+        </div>
+        <div class="breath-complete-msg" id="breath-complete">
+          <div style="font-size:2rem;margin-bottom:0.5rem">🌸</div>
+          <h3>¡Muy bien hecho!</h3>
+          <p>Completaste tu ciclo de respiración. Tu cuerpo y tu bebé lo agradecen.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── RECURSOS ── -->
+  <div class="screen" id="screen-recursos">
+    <h1 class="screen-title">Recursos</h1>
+    <p class="screen-subtitle">Materiales de apoyo del programa</p>
+
+    <div class="section-label">Guías en PDF</div>
+    <a href="https://drive.google.com/file/d/1CJVN1RQfNv-bqylLAGJ_QwVTZxHOc45N/view?usp=sharing" target="_blank" class="resource-card">
+      <div class="resource-type-icon pdf">📄</div>
+      <div class="resource-card-info"><h4>Información y Bienvenida al Curso 2026</h4><p>PDF · Compensar · Contenido y recomendaciones</p></div>
+    </a>
+
+    <div class="section-label">Lista general · Ft. Jennifer Voelkl</div>
+    <a href="https://drive.google.com/file/d/1FBE0kdgq4NY_UqFqwMvOxaYePXilDR8y/view?usp=sharing" target="_blank" class="resource-card" style="border-color:var(--teal);background:var(--teal-light)">
+      <div class="resource-type-icon pdf" style="background:var(--teal-light)">🌸</div>
+      <div class="resource-card-info">
+        <h4 style="color:var(--teal-dark)">Maleta para el Parto · Lista completa</h4>
+        <p>PDF · Ft. Jennifer Voelkl · @fisiopisopelvico</p>
+      </div>
+      <span style="font-size:1.2rem;color:var(--teal)">→</span>
+    </a>
+
+    <div class="section-label">Listas de maleta por clínica</div>
+    <a href="https://drive.google.com/file/d/1ZODU9c1aWLVIauAVxGAnBV04kdnvCbVW/view?usp=sharing" target="_blank" class="resource-card">
+      <div class="resource-type-icon pdf">🏥</div>
+      <div class="resource-card-info"><h4>Lista de maleta · Los Cobos Medical Center</h4><p>PDF oficial · Elementos para el día del parto</p></div>
+    </a>
+    <a href="https://drive.google.com/file/d/1kvnf-YjX-FlaQGDbhRr5-LO8sziDJ8ix/view?usp=sharing" target="_blank" class="resource-card">
+      <div class="resource-type-icon pdf">🏥</div>
+      <div class="resource-card-info"><h4>Lista de maleta · Clínica del Country</h4><p>PDF oficial · Lista de maternidad</p></div>
+    </a>
+    <a href="https://drive.google.com/file/d/1WcClVi_FtNMynAnbHKKe5Ve784w9SnEI/view?usp=sharing" target="_blank" class="resource-card">
+      <div class="resource-type-icon pdf">🏥</div>
+      <div class="resource-card-info"><h4>Lista de maleta · Clínica de la Mujer</h4><p>PDF oficial · Elementos para el día del parto</p></div>
+    </a>
+    <a href="https://drive.google.com/file/d/1RLI4f5CjRgTNhfeBC_ZJFNBF5Sk1eUm4/view?usp=sharing" target="_blank" class="resource-card">
+      <div class="resource-type-icon pdf">🏥</div>
+      <div class="resource-card-info"><h4>Lista de maleta · Clínica Palermo</h4><p>PDF oficial · Qué llevar para la atención del parto</p></div>
+    </a>
+    <a href="#" class="resource-card" onclick="return false">
+      <div class="resource-type-icon pdf">📄</div>
+      <div class="resource-card-info"><h4>Plan de Parto</h4><p>PDF editable · Próximamente</p></div>
+    </a>
+    <a href="#" class="resource-card" onclick="return false">
+      <div class="resource-type-icon pdf">📄</div>
+      <div class="resource-card-info"><h4>Rehabilitación de Piso Pélvico</h4><p>PDF · Woman & Baby Lab · Próximamente</p></div>
+    </a>
+
+    <div class="section-label">Videos</div>
+    <a href="#" class="resource-card" onclick="return false">
+      <div class="resource-type-icon video">🎬</div>
+      <div class="resource-card-info"><h4>Posiciones para el trabajo de parto</h4><p>Video · YouTube</p></div>
+    </a>
+    <a href="#" class="resource-card" onclick="return false">
+      <div class="resource-type-icon video">🎬</div>
+      <div class="resource-card-info"><h4>Técnica de agarre en lactancia</h4><p>Video · YouTube</p></div>
+    </a>
+
+    <div class="section-label">Infografías</div>
+    <a href="#" class="resource-card" onclick="return false">
+      <div class="resource-type-icon img">🖼️</div>
+      <div class="resource-card-info"><h4>Señales de alarma en el embarazo</h4><p>Infografía · Drive</p></div>
+    </a>
+    <a href="#" class="resource-card" onclick="return false">
+      <div class="resource-type-icon img">🖼️</div>
+      <div class="resource-card-info"><h4>Desarrollo fetal semana a semana</h4><p>Infografía · Drive</p></div>
+    </a>
+
+    <div class="section-label">Enlaces</div>
+    <a href="https://www.who.int/es/health-topics/maternal-health" target="_blank" class="resource-card">
+      <div class="resource-type-icon web">🌐</div>
+      <div class="resource-card-info"><h4>Salud materna · OMS</h4><p>Organización Mundial de la Salud</p></div>
+    </a>
+    <a href="https://compensar.com" target="_blank" class="resource-card">
+      <div class="resource-type-icon web">🌐</div>
+      <div class="resource-card-info"><h4>Portal Compensar</h4><p>compensar.com</p></div>
+    </a>
+  </div>
+
+  <!-- ── BOTTOM NAV ── -->
+  <nav class="bottom-nav">
+    <button class="nav-item active" onclick="showScreen('progreso',this)">
+      <span class="nav-icon">📊</span>Progreso
+    </button>
+    <button class="nav-item" onclick="showScreen('bienvenida',this)">
+      <span class="nav-icon">📄</span>Bienvenida
+    </button>
+    <button class="nav-item" onclick="showScreen('cronogramas',this)">
+      <span class="nav-icon">📅</span>Cronogramas
+    </button>
+    <button class="nav-item" onclick="showScreen('info',this)">
+      <span class="nav-icon">📚</span>Curso
+    </button>
+    <button class="nav-item" onclick="showScreen('gestacion',this)">
+      <span class="nav-icon">🤰</span>Gestación
+    </button>
+    <button class="nav-item" onclick="showScreen('checklists',this)">
+      <span class="nav-icon">✅</span>Listas
+    </button>
+    <button class="nav-item" onclick="showScreen('respiracion',this)">
+      <span class="nav-icon">🌬️</span>Respiración
+    </button>
+    <button class="nav-item" onclick="showScreen('recursos',this)">
+      <span class="nav-icon">📁</span>Recursos
+    </button>
+  </nav>
+</div>
+
+<script>
+// ══════ CONFIG ══════
+const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTtqmC6lhhSkx2qGkyAjfmG3j_md9T4nxuNK6brIOt7aFNFLacHJTTQB03Uh3G8XnepbUfusAI9XRyO/pub?gid=0&single=true&output=csv';
+
+const SESIONES = [
+  'Nuestro embarazo',
+  'Lactancia materna',
+  'Práctica de lactancia',
+  'Taller de lactancia',
+  'Cuidados del recién nacido',
+  'Cómo cuidar a mi bebé',
+  'Los primeros días de mi bebé',
+  'Trabajo de parto, cesárea y anestesia',
+  'Pujo',
+  'Parto en movimiento',
+  'Técnicas de respiración',
+  'Signos de alarma y vacunación',
+  'Nutrición',
+  'Emociones y postparto',
+  'Estimulación y desarrollo',
+  'Cuidados postparto',
+  'Recuperación postparto',
+  'Tecnologías en lactancia',
+];
+
+// Sesiones que cuentan para el progreso y certificado (excluye postparto y bonus)
+const SESIONES_PRINCIPALES = [0,1,2,3,4,5,7,8,9,10,11,12,13,15]; // 14 clases principales
+
+// Mapa abreviaturas CONSOLIDADO → índice sesión
+const MAPA_CLASES = {
+  // 0 - Nuestro embarazo
+  'NUESTRO':              0,
+  'UESTRO':               0,  // 25JUNUESTRO, 30JUNUESTRO
+
+  // 1 - Lactancia materna
+  'LACTANCIA':            1,
+  'ACTANCIA':             1,  // 11JULACTANCIA, 17JULACTANCIA
+
+  // 2 - Práctica de lactancia
+  'PRACTICA':             2,
+
+  // 3 - Taller de lactancia
+  'TALLER':               3,
+
+  // 4 - Cuidados del recién nacido
+  'CRN':                  4,
+  'DICRN':                4,  // 29DICRN
+
+  // 5 - Cómo cuidar a mi bebé
+  'COMOCUIDAR':           5,
+  'COMOCUIDO':            5,
+  'CUIDARAMIBEBE':        5,
+  'CUIDANDODEMIBEBE':     5,
+  'COOCUIDAR':            5,
+
+  // 6 - Los primeros días de mi bebé
+  '1OSDIAS':              6,
+  'PRIMEROSDIAS':         6,
+  '1OSDIASDEMIBEBE':      6,
+  '17DIC1OSDIASDEMIBEBE': 6,
+
+  // 7 - Trabajo de parto, cesárea y anestesia
+  'WP':                   7,  // 24SEPTWP
+  'JULW':                 7,  // xJULWyyyy
+  'ENEW':                 7,  // xENEWyyy
+  'FEBW':                 7,
+  'MZOW':                 7,
+  'ABRW':                 7,
+  'MAYW':                 7,
+  'JUNW':                 7,
+  'OCTW':                 7,
+  'NOVW':                 7,
+  'DICW':                 7,
+  'AGOW':                 7,
+  'SEPTW':                7,
+
+  // 8 - Pujo
+  'PUJO':                 8,
+  'PUJ':                  8,  // 22MAYPUJ730PM
+
+  // 9 - Parto en movimiento
+  'MVTO':                 9,
+
+  // 10 - Técnicas de respiración
+  'TECNICAS':             10,
+  'TECN':                 10,
+  'TECNI':                10,  // 22MAYTECNI
+
+  // 11 - Signos de alarma y vacunación
+  'SIGNOS':               11,
+
+  // 12 - Nutrición
+  'NUTRI':                12,
+  'NUTRICION':            12,
+  'UTRICION':             12,  // variante
+
+  // 13 - Emociones y postparto
+  'EMO':                  13,
+
+  // 14 - Estimulación y desarrollo
+  'ESTIMUL':              14,
+  'ESTIIM':               14,
+  'ESTIMULACION':         14,
+
+  // 15 - Cuidados postparto
+  'CUIDOP':               15,
+  'CUIDPOP':              15,
+  'CUIDADNDODEMIBEBE':    15,
+
+  // 16 - Recuperación postparto
+  'RECUPOP':              16,
+  'RECUPEROP':            16,
+  'RECUP':                16,
+
+  // 17 - Tecnologías en lactancia
+  'TECHLAC':              17,
+  'TECLACTANCIA':         17,
+  'TECH':                 17,
+
+  // W genérico - Trabajo de parto
+  'W8':                   7,
+  'W6':                   7,
+  'W83':                  7,
+};
+
+const TOTAL_SESIONES = SESIONES.length;
+let currentUser = null;
+
+// ══════ LOGIN ══════
+document.getElementById('cedula-input').addEventListener('keypress', e => {
+  if (e.key === 'Enter') doLogin();
+});
+
+async function doLogin() {
+  const cedula = document.getElementById('cedula-input').value.trim();
+  if (!cedula) return;
+  const errEl = document.getElementById('login-error');
+  errEl.style.display = 'none';
+  try {
+    const data = await fetchSheetData();
+    const user = findUser(data, cedula);
+    if (!user) { errEl.style.display = 'block'; return; }
+    currentUser = user;
+    initApp();
+  } catch(e) {
+    // Demo mode
+    const asistidas = [true, true, true, true, false, false, false, false];
+    currentUser = { name: 'Usuaria Demo', cedula, sesiones: asistidas };
+    initApp();
+  }
+}
+
+async function fetchSheetData() {
+  const res = await fetch(SHEET_CSV_URL);
+  if (!res.ok) throw new Error('No sheet');
+  const text = await res.text();
+  return text.split('\n').slice(1).map(l => l.split(',').map(c => c.trim().replace(/^"|"$/g,'')));
+}
+
+// Convierte nombre de clase a fecha legible
+// Ej: 11JULCRN8AM_2026 → "11 Jul 2026"
+function parsearFecha(nombreClase) {
+  const MESES = {
+    'ENE':'Ene','FEB':'Feb','MAR':'Mar','ABR':'Abr',
+    'MAY':'May','JUN':'Jun','JUL':'Jul','AGO':'Ago',
+    'SEP':'Sep','SEPT':'Sep','OCT':'Oct','NOV':'Nov','DIC':'Dic',
+    'MZO':'Mar','JUN':'Jun','AGO':'Ago'
+  };
+  // Extraer año del sufijo _YYYY
+  const anioMatch = nombreClase.match(/_(\d{4})$/);
+  const anio = anioMatch ? anioMatch[1] : '';
+  // Extraer día y mes del inicio — exactamente 3 letras del mes
+  const match = nombreClase.match(/^(\d{1,2})([A-Z]{3})/i);
+  if (!match) return anio;
+  const dia = match[1];
+  const mes = match[2].toUpperCase();
+  const mesLegible = MESES[mes] || mes;
+  return anio ? dia + ' ' + mesLegible + ' ' + anio : dia + ' ' + mesLegible;
+}
+
+function findUser(rows, cedula) {
+  const row = rows.find(r => r[0] && r[0].toString().trim() === cedula.trim());
+  if (!row) return null;
+
+  const nombre = (row[1] || '').toString().trim();
+  const apellido = (row[2] || '').toString().trim();
+  const name = (nombre + ' ' + apellido).trim() || 'Usuaria';
+
+  // Columna G (índice 6) = LISTA_CLASES separadas por " | "
+  const listaClases = (row[6] || '').toString().trim();
+  const clasesAsistidas = listaClases ? listaClases.split(' | ').map(c => c.trim().toUpperCase()) : [];
+
+  // Inicializar sesiones: false + fecha vacía
+  const sesiones = new Array(TOTAL_SESIONES).fill(false);
+  const fechasSesiones = new Array(TOTAL_SESIONES).fill('');
+
+  // Para cada clase asistida, buscar qué abreviatura contiene y marcar la sesión
+  clasesAsistidas.forEach(clase => {
+    // Quitar sufijo _YYYY para el matching de abreviatura
+    const claseBase = clase.replace(/_\d{4}$/, '');
+    for (const [abrev, idx] of Object.entries(MAPA_CLASES)) {
+      if (claseBase.includes(abrev)) {
+        if (idx < TOTAL_SESIONES) {
+          sesiones[idx] = true;
+          // Guardar fecha si no tiene una ya
+          if (!fechasSesiones[idx]) {
+            fechasSesiones[idx] = parsearFecha(clase);
+          }
+        }
+        break;
+      }
+    }
+  });
+
+  const cedulaAcomp = (row[3] || '').toString().trim();
+  const nombreAcomp = (row[4] || '').toString().trim();
+  return { name, cedula, sesiones, fechasSesiones, totalClases: clasesAsistidas.length, clasesAsistidas, cedulaAcomp, nombreAcomp };
+}
+
+function initApp() {
+  document.getElementById('screen-login').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  document.getElementById('user-name-display').textContent = currentUser.name;
+  renderProgress();
+  setTimeout(() => { loadChecklist('parto'); loadChecklist('bebe'); loadChecklist('cobos'); loadChecklist('country'); loadChecklist('mujer'); loadChecklist('palermo'); }, 100);
+}
+
+function doLogout() {
+  currentUser = null;
+  document.getElementById('screen-login').style.display = 'flex';
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('cedula-input').value = '';
+}
+
+// ══════ NAV ══════
+function showScreen(name, btn) {
+  document.querySelectorAll('.screen').forEach(s => {
+    s.classList.remove('active');
+    s.scrollTop = 0;
+  });
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const screen = document.getElementById('screen-' + name);
+  screen.classList.add('active');
+  screen.scrollTop = 0;
+  btn.classList.add('active');
+}
+
+// ══════ PROGRESO ══════
+function renderProgress() {
+  document.getElementById('progress-loading').style.display = 'none';
+  document.getElementById('progress-content').classList.remove('hidden');
+  const sesiones = currentUser.sesiones;
+  // Solo contar sesiones principales (excluye postparto y bonus)
+  const asistPrincipales = SESIONES_PRINCIPALES.filter(i => sesiones[i]).length;
+  const totalPrincipales = SESIONES_PRINCIPALES.length;
+  const pct = Math.round((asistPrincipales / totalPrincipales) * 100);
+  document.getElementById('pct-display').innerHTML = pct + '<span>%</span>';
+  document.getElementById('sessions-display').textContent = `${asistPrincipales} de ${totalPrincipales} sesiones del curso completadas`;
+  setTimeout(() => { document.getElementById('progress-bar').style.width = pct + '%'; }, 100);
+  if (pct >= 80) {
+    document.getElementById('cert-available').classList.remove('hidden');
+    document.getElementById('cert-locked').classList.add('hidden');
+  } else {
+    document.getElementById('cert-available').classList.add('hidden');
+    document.getElementById('cert-locked').classList.remove('hidden');
+  }
+  const list = document.getElementById('session-list');
+  list.innerHTML = '';
+  const fechas = currentUser.fechasSesiones || [];
+  const noContabilizan = new Set([6, 14, 16, 17]);
+  SESIONES.forEach((nombre, i) => {
+    const done = sesiones[i];
+    const fecha = fechas[i] || '';
+    const esPrincipal = !noContabilizan.has(i);
+    const statusText = done ? (fecha ? 'Asistida · ' + fecha : 'Sesión asistida') : 'Pendiente';
+    const adicionalTag = !esPrincipal
+      ? '<span style="font-size:0.62rem;background:var(--orange-light);color:var(--orange);border-radius:99px;padding:0.1rem 0.5rem;font-weight:700;margin-left:0.4rem;vertical-align:middle">Adicional</span>'
+      : '';
+    list.innerHTML += `
+      <div class="session-item ${done ? 'done' : ''}">
+        <div class="session-dot ${done ? 'done' : 'pending'}">${done ? '✅' : '⏳'}</div>
+        <div class="session-info">
+          <div class="session-name">${nombre}${adicionalTag}</div>
+          <div class="session-status">${statusText}</div>
+        </div>
+        <span class="badge ${done ? 'badge-teal' : 'badge-orange'}">${done ? 'Asistida' : 'Pendiente'}</span>
+      </div>`;
+  });
+}
+
+// ══════ CERTIFICADO ══════
+function downloadCert() {
+  const name = (currentUser.name || '').trim();
+  const cedula = currentUser.cedula;
+  const nombreAcomp = currentUser.nombreAcomp || '';
+  const cedulaAcomp = currentUser.cedulaAcomp || '';
+  const meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  const hoy = new Date();
+  const fechaTexto = `${hoy.getDate()} de ${meses[hoy.getMonth()]} de ${hoy.getFullYear()}`;
+  const textoAcomp = nombreAcomp && cedulaAcomp
+    ? ` y el señor/señora ${nombreAcomp},  identificado(a)  con  ${cedulaAcomp}`
+    : '';
+  const html = `<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    @page { margin: 2cm 2.5cm; }
+    body {
+      font-family: Calibri, 'Segoe UI', sans-serif;
+      font-size: 11pt;
+      color: #000;
+      background: white;
+      padding: 1.5cm 2.5cm 2cm 2.5cm;
+      max-width: 21cm;
+      margin: 0 auto;
+    }
+    .header {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 1.2cm;
+    }
+    .logo-comp {
+      height: 55px;
+      object-fit: contain;
+    }
+    .fecha { font-size: 11pt; margin-bottom: 1.5cm; display: block; }
+    .saludo { margin-bottom: 0.8cm; font-size: 11pt; }
+    .cuerpo {
+      font-size: 11pt;
+      text-align: justify;
+      line-height: 1.6;
+      margin-bottom: 1cm;
+    }
+    .expide { font-size: 11pt; margin-bottom: 1.2cm; }
+    .cordial { font-size: 11pt; margin-bottom: 1.8cm; }
+    .firma-img {
+      height: 65px;
+      display: block;
+      margin-bottom: 0.1cm;
+      object-fit: contain;
+    }
+    .firma-linea {
+      border-top: 1px solid #000;
+      width: 220px;
+      margin-bottom: 0.3cm;
+    }
+    .firma-nombre { font-weight: bold; font-size: 11pt; }
+    .firma-cargo { font-weight: bold; font-size: 10.5pt; }
+    @media print {
+      body { padding: 0; }
+    }
+  </style>
+  </head><body>
+
+  <div class="header">
+    <img class="logo-comp" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATYAAACjCAMAAAA3vsLfAAAAwFBMVEX/////ZgAAAABzc3P/XwD/YgD/XAD/VwBJSUmQkJA/Pz/19fXl5eWzs7P/VgBtbW3u7u6ampq6urrf398tLS0NDQ3AwMCKiorS0tL/+veUlJQmJiZbW1urq6s2Njb/zLf/49f/rYvMzMxeXl5TU1Ojo6OAgIBGRkb/hUj/oHj+8+z+2Mf+6uH+i1T/vqT/rYkUFBT/fTz+xKn+t5n/iFP/bxv/div/dSX/lGD/poH/nG/+gED+ybP+0r//lWX/waglFyG6AAAHXklEQVR4nO2beVfiPBTG09IFKDvIKpVFEBFRRFBn1Pn+3+rN1i1BnOPR0/LO8/tjhtwmJXm4ae5NIyEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIEuMxreLxfVF3HRxvVjcjkfp9OckGG1cy7Zty7G2gWlNC8zkbkYpdizTPFRsQ+IshGnhBBa7sk63d1nloWJEWBtm2lgxU+Uh7R5mkZVrxHHuCBk7CZO7SruPGeTZNpIiLZdJ1Qz7Nu0+Zo9lJamRYW3XlmJyl2n3MnO8Kq5l2I+Piv8ZzmvavcwcY9W1jN1OtVh3afcyc1yrrnUA6zrtXmaOA96my/aSdi8zx4Fn2wLPtk85sJJutZUUgZvGreJbleUyGQBT/0u7jxlEzRLoc+xFyRJGafcxi6zjutl7ZkrkpO72szv8m2zdaAdk32OW3ia2AwLVPuBm5zL3sh13HJjGFcfm+227mzR7li16q1UyzRzdPRm75/jubu/P+2azuIZoIeuNQ9mNI+VWLzzGvb040uof58Zw+KPMtpxg3/bFFUuA7ewRoR0mtgNuuL+4KdoBN2wXs/IQN4mkwGFLwHMiKXDgbwcwkjlBZUUukuGu/TvtLmaQtbrf/Ux26qY4pqnGRtvcuNF2QH6l3cnM0VM1ou6mCmk/pd3LzKGk7YwDm5K9tLuZNUa6bDqQTUXdSWMLp/4uIe1eZg912TScB21JwMtkjRdlv9veE1U2B0c+NNRZ6l6oBz4MO+0+ZpGkSBY7l5VMHCpvaXcxkzzHdLN2bNFc2THdXLyAP8x1sAVuuwsRaqyenNCEHfCPuFm4jmM57j56abzd8U1x6x3bH0dYvq3XF0mFtk/GLina8nU73iKtP8bY5t7mPo4Cy+ix4liW5eCw0YeMjCCasyvy1dU43AO2jFGafcsuIze+kvIzWS+x8M7GS/lD9JJxm0sXitdEUGwbyO117tR8q0eUxBXH2w6g5aSv2pE3bCVpvGk7IO/v2jYJEi4V7QygsdePPI8/v88/xrUmmw6OPGuoO3A48vxX/FFls39rbwUt/JGfivZWxnpRQxKcQj3Ak/pWfqQqKQ6mggRvyhmQR+3wuIv44wC/4pGbbS0JWcb3ew3nPe0eZpPb2Pk2Z8QsKyfSzcELwA8YVyxxwNLdyIOpy40rj1xWEOp+yHK8d92K/R7bzL15t6lpf4e/wD3OUsvXe5AMAAAAAAAAAAAAAAAAfp5S/7JYrJZjlka16OcLTVHolumlYaEwK7FSu1AotMWFSbnskdosd56rN2ONJ53zfHVW45/brG0jakKI1yn607DULUzz0z5tXS4zW7k8Ic1C92eG+c3kTEkwmO69NFR5sWOaXVHuk6a4dMZHVjXNZkdWzZeCxgNpmbNSkVaR5Qa/XIpdJLUreW1aM80WNdBP/aBmtvGCYVJm3FKODPceLRfMs7BCIKjJ3IvqHWvcVRsPqMPlo7ZCDVpsXcnazaguvW+RMNnOzNOQrSX72b2Ug5nQ/8+ZKg1TuECB+R3Vb8gHOBFO4hPppv6EVWWjLcnGU3qX5px5IJON1fC8LnU7U1zPETIzzQ79wVjzIb1xc8o+Cdloq2EtNTH+mrp0KcLn3IDwrneEwaM+UOey+bw8Dz1BiJQL5zEhfjjuAi/TH+GKCNlEhXvedsh1J/16mX9f8NX1SLbcDw/4ewhnF+V8etlkPuYHhi4fNJVtyItsUolxzrkGOeGNHI9PXNr4khd9+SHPhWcID2twH4y1kExD2U7A1bgwxaSFahGtqT4bWSFQ1hPuSLh3lHnV6DE0ZwLlhDN5rUC+fPirdLln8olZF0syfRaErZuhbN88wJ+hEc7IgKuYDwivKoSW0LtC2SLfaLDl8ZJb2CozFda8eOQRvoSyCd0WK6fH3a8efW24JHzv+H4IXbZiOFDCYw8um7TosnlhVf6w57LVzqJHXj6sImUjJRHveOwes+hrT0u2djRCyXnsYScKx2SLqg7ZD0C9s+2dxZ7rumxEBClz9u88+trTks2LP02GQ5oI1GOD9oIl4UPZonWvyByTOm/xPpCDRc+qbM0mm9Y8uG0mvvq0ZGNLWDD0Bh9HLba2VvnFY7LxFYAxEyLwCSimfZvVVWTz5LddMXlakf+VzBOTrRSGSmWZJrB0SaRZVREPHJVNrqV92bgtswNWRcZtCW+752WPizQJw76ueWqyidg/1++wNEkEDSz38Tt9LgrT77hsrOqcJQkimmD6mVfzqdRBlY1eHgyHA6FxX3x1IW+enmyxLDIIo85DC/e6uGxq3FYPq1a12/UJ/wmSS4JMYkXMOwvrDk8rbmPIkKAYha5tsTPRESOu+wMZnhV94Y9k2Gq1uWwlby5kmISNvXqLexGP9ab+IJCt5fOVoho9/aiR+6mZq5GBzyK9ln/1gwP9dkqlkpcweKVu6YO6ETkRB2uNiVc7kiJ5pcSda8fq/i/JnUgGmTEg25eAbF+iCtm+hOd9XgcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADgG/kPgZpxp7DPKb0AAAAASUVORK5CYII=" alt="Compensar">
+  </div>
+
+  <span class="fecha">Bogotá, ${fechaTexto}</span>
+
+  <br><br>
+
+  <p class="saludo">A quien pueda interesar,</p>
+
+  <br>
+
+  <p class="cuerpo">Por medio de la presente me permito certificar que la  Señora <strong>${name}</strong>,  identificada  con  <strong>${cedula}</strong>${textoAcomp}  han asistido a las clases  del     Curso  de Preparación  para  la Maternidad &amp; Paternidad, del   Plan  Complementario   de  Compensar  de  la  Sede  127.</p>
+
+  <br>
+
+  <p class="expide">La presente se expide a solicitud de los interesados.</p>
+
+  <br>
+
+  <p class="cordial">Cordialmente</p>
+
+  <img class="firma-img" src="data:image/png;base64,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" alt="Firma">
+  <div class="firma-linea"></div>
+  <p class="firma-nombre">JENNIFFER VOELKL GUEVARA</p>
+  <p class="firma-cargo">Fisioterapeuta – educadora Prenatal</p>
+  <p class="firma-cargo">Coordinadora de Curso Psicofísico Plan Complementario</p>
+  <p class="firma-cargo">Compensar  Calle 127</p>
+  <p class="firma-cargo">320-2807731</p>
+
+  <script>window.onload=()=>window.print()<\/script>
+  </body></html>`;
+    const w = window.open('','_blank');
+  w.document.write(html); w.document.close();
+}
+
+// ══════ ACCORDION ══════
+function toggleAccordion(header) {
+  const body = header.nextElementSibling;
+  const arrow = header.querySelector('.accordion-arrow');
+  const isOpen = body.classList.contains('open');
+  document.querySelectorAll('.accordion-body').forEach(b => b.classList.remove('open'));
+  document.querySelectorAll('.accordion-arrow').forEach(a => a.classList.remove('open'));
+  if (!isOpen) { body.classList.add('open'); arrow.classList.add('open'); }
+}
+
+// ══════ TRIMESTRES ══════
+function showTrimester(btn, id) {
+  document.querySelectorAll('.trimester-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.trimester-content').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+
+// ══════ CHECKLISTS ══════
+function showChecklist(btn, id) {
+  document.querySelectorAll('.checklist-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.checklist-content').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+
+function toggleCheck(el) {
+  el.classList.toggle('checked');
+  const listName = el.dataset.list;
+  saveChecklist(listName);
+  updateChecklistProgress(listName);
+}
+
+function saveChecklist(listName) {
+  const items = document.querySelectorAll(`[data-list="${listName}"]`);
+  const state = Array.from(items).map(i => i.classList.contains('checked'));
+  try { localStorage.setItem('cl_'+listName, JSON.stringify(state)); } catch(e) {}
+}
+
+function loadChecklist(listName) {
+  try {
+    const saved = localStorage.getItem('cl_'+listName);
+    if (!saved) return;
+    const state = JSON.parse(saved);
+    const items = document.querySelectorAll(`[data-list="${listName}"]`);
+    items.forEach((item, i) => { if (state[i]) item.classList.add('checked'); });
+    updateChecklistProgress(listName);
+  } catch(e) {}
+}
+
+function updateChecklistProgress(listName) {
+  const items = document.querySelectorAll(`[data-list="${listName}"]`);
+  const total = items.length;
+  const done = document.querySelectorAll(`[data-list="${listName}"].checked`).length;
+  const pct = total ? Math.round((done/total)*100) : 0;
+  const pctEl = document.getElementById(listName+'-pct');
+  const countEl = document.getElementById(listName+'-count');
+  if (pctEl) pctEl.textContent = pct+'%';
+  if (countEl) countEl.textContent = `${done} de ${total}`;
+}
+
+// ══════ RESPIRACIÓN ══════
+const BREATH_CONFIGS = {
+  lenta: {
+    instruction: 'Siéntate cómodamente. Cierra los ojos. Inhala lento por la nariz llenando el abdomen, haz una pausa suave y exhala despacio por la boca.',
+    phases: [
+      { label:'Inhala', duration:4, colors:['#B2EBF2','#00B4C8'] },
+      { label:'Pausa',  duration:2, colors:['#F3E5F5','#9C27B0'] },
+      { label:'Exhala', duration:6, colors:['#E0F7FA','#0090A0'] },
+      { label:'Pausa',  duration:2, colors:['#F3E5F5','#9C27B0'] },
+    ],
+    totalSeconds: 90, isOla: false,
+  },
+  soplido: {
+    instruction: '💨 Soplidos cortos x4 (1s c/u) → Jadeo (2s) → Pausa (1s) → repite. Mantén los hombros relajados.',
+    phases: [
+      { label:'Sopla 1', duration:1, colors:['#E0F7FA','#00B4C8'] },
+      { label:'Sopla 2', duration:1, colors:['#E0F7FA','#00B4C8'] },
+      { label:'Sopla 3', duration:1, colors:['#E0F7FA','#00B4C8'] },
+      { label:'Sopla 4', duration:1, colors:['#E0F7FA','#00B4C8'] },
+      { label:'Jadea',   duration:2, colors:['#FCE4EC','#E91E63'] },
+      { label:'Pausa',   duration:1, colors:['#F3E5F5','#9C27B0'] },
+    ],
+    totalSeconds: 60, isOla: false,
+  },
+  parto: {
+    instruction: '💨 Jadeos cortos x4 (1s c/u) → Soplido (2s) → Pausa (1s) → repite. Mantén los hombros relajados.',
+    phases: [
+      { label:'Jadea 1', duration:1, colors:['#FCE4EC','#E91E63'] },
+      { label:'Jadea 2', duration:1, colors:['#FCE4EC','#E91E63'] },
+      { label:'Jadea 3', duration:1, colors:['#FCE4EC','#E91E63'] },
+      { label:'Jadea 4', duration:1, colors:['#FCE4EC','#E91E63'] },
+      { label:'Sopla',   duration:2, colors:['#E0F7FA','#00B4C8'] },
+      { label:'Pausa',   duration:1, colors:['#F3E5F5','#9C27B0'] },
+    ],
+    totalSeconds: 60, isOla: false,
+  },
+  surge: {
+    instruction: 'Inhala lentamente mientras el surge sube, imaginando que tu cuerpo se abre y relaja. Exhala mientras el surge baja, soltando toda la tensión.',
+    phases: [
+      { label:'Sube ↑', duration:5, colors:['#E8F5E9','#43A047'] },
+      { label:'Pausa',  duration:1, colors:['#F3E5F5','#9C27B0'] },
+      { label:'Baja ↓', duration:5, colors:['#E0F7FA','#00B4C8'] },
+      { label:'Pausa',  duration:1, colors:['#F3E5F5','#9C27B0'] },
+    ],
+    totalSeconds: 90, isOla: false,
+  },
+  ola: {
+    instruction: '🌊 Inicia con un suspiro valiente… acompaña cada contracción durante 1 minuto y medio con tu respiración… cierra con un suspiro de alivio.',
+    totalSeconds: 90, isOla: true,
+    levels: {
+      1: { in:3, pause:2, out:6,  pause2:2 },
+      2: { in:4, pause:2, out:8,  pause2:2 },
+      3: { in:5, pause:2, out:10, pause2:2 },
+    }
+  }
+};
+
+let selectedBreath = null;
+let olaLevel = 1;
+let breathInterval = null;
+let totalTimerInterval = null;
+let breathRunning = false;
+
+function selectBreath(card, type) {
+  document.querySelectorAll('.breath-card').forEach(c => c.classList.remove('selected'));
+  card.classList.add('selected');
+  selectedBreath = type;
+  stopBreath();
+  const config = BREATH_CONFIGS[type];
+  document.getElementById('breath-instruction-text').textContent = config.instruction;
+  document.getElementById('breath-timer-zone').style.display = 'block';
+  document.getElementById('breath-complete').style.display = 'none';
+  document.getElementById('total-timer').textContent = formatTime(config.totalSeconds);
+  document.getElementById('phase-text').textContent = 'Lista';
+  document.getElementById('phase-count').textContent = '—';
+  document.getElementById('cycle-label').textContent = '';
+  document.getElementById('btn-start').classList.remove('hidden');
+  document.getElementById('btn-stop').classList.add('hidden');
+  resetBubble();
+}
+
+function setNivel(e, level) {
+  e.stopPropagation();
+  olaLevel = level;
+  document.querySelectorAll('.nivel-btn').forEach(b => b.classList.remove('active'));
+  e.target.classList.add('active');
+}
+
+function resetBubble() {
+  const bubble = document.getElementById('breath-bubble');
+  bubble.style.transform = 'scale(1)';
+  bubble.style.background = 'radial-gradient(circle, #B2EBF2, #00B4C8)';
+}
+
+function startBreath() {
+  if (!selectedBreath) return;
+  breathRunning = true;
+  document.getElementById('btn-start').classList.add('hidden');
+  document.getElementById('btn-stop').classList.remove('hidden');
+  document.getElementById('breath-complete').style.display = 'none';
+  const config = BREATH_CONFIGS[selectedBreath];
+  let totalRemaining = config.totalSeconds;
+  totalTimerInterval = setInterval(() => {
+    totalRemaining--;
+    document.getElementById('total-timer').textContent = formatTime(totalRemaining);
+    if (totalRemaining <= 0) { clearInterval(totalTimerInterval); finishBreath(); }
+  }, 1000);
+  if (config.isOla) runOlaValiente(config);
+  else runStandardBreath(config);
+}
+
+function runStandardBreath(config) {
+  const phases = config.phases;
+  let phaseIdx = 0, phaseCount = phases[0].duration, cycleCount = 0;
+  setBubble(phases[0]);
+  document.getElementById('phase-text').textContent = phases[0].label;
+  document.getElementById('phase-count').textContent = phaseCount;
+  breathInterval = setInterval(() => {
+    if (!breathRunning) return;
+    phaseCount--;
+    document.getElementById('phase-count').textContent = phaseCount;
+    if (phaseCount <= 0) {
+      phaseIdx = (phaseIdx + 1) % phases.length;
+      if (phaseIdx === 0) { cycleCount++; document.getElementById('cycle-label').textContent = `Ciclo ${cycleCount}`; }
+      phaseCount = phases[phaseIdx].duration;
+      setBubble(phases[phaseIdx]);
+      document.getElementById('phase-text').textContent = phases[phaseIdx].label;
+      document.getElementById('phase-count').textContent = phaseCount;
+    }
+  }, 1000);
+}
+
+function runOlaValiente(config) {
+  const lvl = config.levels[olaLevel];
+  const phases = [
+    { label:'💨 Suspiro Valiente', duration:3, colors:['#FFF8E1','#F57F17'], isSpecial:true },
+    { label:'Inhala',  duration:lvl.in,     colors:['#E0F7FA','#00B4C8'] },
+    { label:'Pausa',   duration:lvl.pause,  colors:['#F3E5F5','#9C27B0'] },
+    { label:'Exhala',  duration:lvl.out,    colors:['#E8F5E9','#43A047'] },
+    { label:'Pausa',   duration:lvl.pause2, colors:['#F3E5F5','#9C27B0'] },
+  ];
+  let phaseIdx = 0, phaseCount = phases[0].duration, cycleCount = 0, passedSuspiro = false;
+  setBubble(phases[0]);
+  document.getElementById('phase-text').textContent = phases[0].label;
+  document.getElementById('phase-count').textContent = phaseCount;
+  document.getElementById('cycle-label').textContent = 'Inicia tu Ola Valiente';
+  breathInterval = setInterval(() => {
+    if (!breathRunning) return;
+    phaseCount--;
+    document.getElementById('phase-count').textContent = phaseCount;
+    if (phaseCount <= 0) {
+      if (!passedSuspiro) { passedSuspiro = true; phaseIdx = 1; }
+      else { phaseIdx++; if (phaseIdx >= phases.length) { phaseIdx = 1; cycleCount++; } }
+      phaseCount = phases[phaseIdx].duration;
+      setBubble(phases[phaseIdx]);
+      document.getElementById('phase-text').textContent = phases[phaseIdx].label;
+      document.getElementById('phase-count').textContent = phaseCount;
+      if (cycleCount > 0) document.getElementById('cycle-label').textContent = `Ciclo ${cycleCount}`;
+    }
+  }, 1000);
+}
+
+function setBubble(phase) {
+  const bubble = document.getElementById('breath-bubble');
+  const isInhale = phase.label.includes('Inhala') || phase.label.includes('Sube') || phase.label.includes('Suspiro');
+  bubble.style.transform = isInhale ? 'scale(1.2)' : 'scale(0.85)';
+  bubble.style.background = `radial-gradient(circle, ${phase.colors[0]}, ${phase.colors[1]})`;
+}
+
+function stopBreath() {
+  breathRunning = false;
+  clearInterval(breathInterval); clearInterval(totalTimerInterval);
+  breathInterval = null; totalTimerInterval = null;
+  document.getElementById('btn-start').classList.remove('hidden');
+  document.getElementById('btn-stop').classList.add('hidden');
+  resetBubble();
+  document.getElementById('phase-text').textContent = 'Lista';
+  document.getElementById('phase-count').textContent = '—';
+  if (selectedBreath) document.getElementById('total-timer').textContent = formatTime(BREATH_CONFIGS[selectedBreath].totalSeconds);
+}
+
+function finishBreath() {
+  breathRunning = false;
+  clearInterval(breathInterval); breathInterval = null;
+  document.getElementById('btn-start').classList.remove('hidden');
+  document.getElementById('btn-stop').classList.add('hidden');
+  document.getElementById('breath-complete').style.display = 'block';
+  document.getElementById('phase-text').textContent = '🌸';
+  document.getElementById('phase-count').textContent = '';
+  if (selectedBreath === 'ola') {
+    document.getElementById('breath-instruction-text').textContent = '🌸 Suspiro de alivio… suelta todo. Lo hiciste increíble, ¡eres una mamá valiente!';
+  }
+  resetBubble();
+}
+
+function formatTime(s) {
+  return `${Math.floor(s/60)}:${(s%60).toString().padStart(2,'0')}`;
+}
+</script>
+</body>
+</html>
