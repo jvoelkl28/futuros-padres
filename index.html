@@ -1067,38 +1067,6 @@
       <span style="font-size:1.2rem;color:var(--teal)">→</span>
     </a>
 
-    <div class="card" style="background:linear-gradient(135deg,var(--teal-light),var(--rose-pale));border:1px solid var(--border);margin-top:1.2rem">
-      <div class="card-title">📅 Agosto 2026</div>
-      <p style="font-size:0.85rem;color:var(--text-soft);margin-bottom:1rem">Revisa el cronograma, elige tus clases y regístrate con anticipación.</p>
-    </div>
-
-    <a href="https://drive.google.com/file/d/1w6c2Gr55I7VbwZWzr61n5g-eF_BPt5-Z/view?usp=drive_link" target="_blank" class="resource-card">
-      <div class="resource-type-icon pdf" style="background:#E8F4FD">📅</div>
-      <div class="resource-card-info">
-        <h4>Cronograma Agosto 2026 · Presencial</h4>
-        <p>PDF · Sede Calle 127 · Toca para abrir</p>
-      </div>
-      <span style="font-size:1.2rem;color:var(--teal)">→</span>
-    </a>
-
-    <a href="https://drive.google.com/file/d/1mPbZl-RlpkXJvWfi-jPBWROs9H8mbKp1/view?usp=drive_link" target="_blank" class="resource-card">
-      <div class="resource-type-icon pdf" style="background:var(--teal-light)">💻</div>
-      <div class="resource-card-info">
-        <h4>Cronograma Agosto 2026 · Virtual</h4>
-        <p>PDF · Microsoft Teams · Toca para abrir</p>
-      </div>
-      <span style="font-size:1.2rem;color:var(--teal)">→</span>
-    </a>
-
-    <a href="https://drive.google.com/file/d/1qvJpvEwPouEosRnz7Sef46r12Es-dRoA/view?usp=drive_link" target="_blank" class="resource-card">
-      <div class="resource-type-icon pdf" style="background:#fdf0f5">🤱</div>
-      <div class="resource-card-info">
-        <h4>Cronograma Agosto 2026 · Postparto</h4>
-        <p>PDF · Toca para abrir</p>
-      </div>
-      <span style="font-size:1.2rem;color:var(--teal)">→</span>
-    </a>
-
     <div class="card" style="margin-top:1rem">
       <div class="card-title">💡 Recuerda</div>
       <ul style="font-size:0.85rem;color:var(--text-soft);padding-left:1.2rem;line-height:2">
@@ -2328,9 +2296,9 @@ function findUser(rows, cedula) {
   const listaClases = (row[6] || '').toString().trim();
   const clasesAsistidas = listaClases ? listaClases.split(' | ').map(c => c.trim().toUpperCase()) : [];
 
-  // Inicializar sesiones: false + fecha vacía
+  // Inicializar sesiones: false + array de fechas por sesión
   const sesiones = new Array(TOTAL_SESIONES).fill(false);
-  const fechasSesiones = new Array(TOTAL_SESIONES).fill('');
+  const fechasSesiones = new Array(TOTAL_SESIONES).fill(null).map(() => []);
 
   // Para cada clase asistida, buscar qué abreviatura contiene y marcar la sesión
   clasesAsistidas.forEach(clase => {
@@ -2340,9 +2308,10 @@ function findUser(rows, cedula) {
       if (claseBase.includes(abrev)) {
         if (idx < TOTAL_SESIONES) {
           sesiones[idx] = true;
-          // Guardar fecha si no tiene una ya
-          if (!fechasSesiones[idx]) {
-            fechasSesiones[idx] = parsearFecha(clase);
+          // Guardar TODAS las fechas (incluye clases repetidas)
+          const fecha = parsearFecha(clase);
+          if (fecha && !fechasSesiones[idx].includes(fecha)) {
+            fechasSesiones[idx].push(fecha);
           }
         }
         break;
@@ -2408,9 +2377,10 @@ function renderProgress() {
   const noContabilizan = new Set([6, 14, 16, 17]);
   SESIONES.forEach((nombre, i) => {
     const done = sesiones[i];
-    const fecha = fechas[i] || '';
+    const fechaArr = Array.isArray(fechas[i]) ? fechas[i] : (fechas[i] ? [fechas[i]] : []);
+    const fechaText = fechaArr.length > 0 ? fechaArr.join(', ') : '';
     const esPrincipal = !noContabilizan.has(i);
-    const statusText = done ? (fecha ? 'Asistida · ' + fecha : 'Sesión asistida') : 'Pendiente';
+    const statusText = done ? (fechaText ? 'Asistida · ' + fechaText : 'Sesión asistida') : 'Pendiente';
     const adicionalTag = !esPrincipal
       ? '<span style="font-size:0.62rem;background:var(--orange-light);color:var(--orange);border-radius:99px;padding:0.1rem 0.5rem;font-weight:700;margin-left:0.4rem;vertical-align:middle">Adicional</span>'
       : '';
