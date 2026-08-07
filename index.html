@@ -2146,10 +2146,11 @@ const SESIONES = [
   'Cuidados postparto',
   'Recuperación postparto',
   'Tecnologías en lactancia',
+  'Preparando tu Llegada',
 ];
 
 // Sesiones que cuentan para el progreso y certificado (excluye postparto y bonus)
-const SESIONES_PRINCIPALES = [0,1,2,3,4,5,7,8,9,10,11,12,13,15]; // 14 clases principales
+const SESIONES_PRINCIPALES = [0,1,2,3,4,5,7,8,9,10,11,12,13,15,18]; // 15 clases principales
 
 // Mapa abreviaturas CONSOLIDADO → índice sesión
 const MAPA_CLASES = {
@@ -2242,6 +2243,12 @@ const MAPA_CLASES = {
   'TECLACTANCIA':         17,
   'TECH':                 17,
 
+  // 18 - Preparando tu Llegada
+  'LLEGADA':              18,
+  'PREPARANDO':           18,
+  'PREPARANDOLLEGADA':    18,
+  'PREPTU':               18,
+
   // W genérico - Trabajo de parto
   'W8':                   7,
   'W6':                   7,
@@ -2291,7 +2298,7 @@ function parsearFecha(nombreClase) {
     'SEP':'Sep','SEPT':'Sep','OCT':'Oct','NOV':'Nov','DIC':'Dic',
     'MZO':'Mar','JUN':'Jun','AGO':'Ago'
   };
-  // Extraer año del sufijo _YYYY, o usar el año actual si no tiene
+  // Extraer año del sufijo _YYYY, o usar el año actual
   const anioMatch = nombreClase.match(/_(\d{4})$/);
   const anio = anioMatch ? anioMatch[1] : new Date().getFullYear().toString();
   // Extraer día y mes del inicio — exactamente 3 letras del mes
@@ -2315,7 +2322,7 @@ function findUser(rows, cedula) {
   const listaClases = (row[6] || '').toString().trim();
   const clasesAsistidas = listaClases ? listaClases.split(' | ').map(c => c.trim().toUpperCase()) : [];
 
-  // Inicializar sesiones: false + array de fechas por sesión
+  // Inicializar sesiones: false + array de fechas
   const sesiones = new Array(TOTAL_SESIONES).fill(false);
   const fechasSesiones = new Array(TOTAL_SESIONES).fill(null).map(() => []);
 
@@ -2327,7 +2334,7 @@ function findUser(rows, cedula) {
       if (claseBase.includes(abrev)) {
         if (idx < TOTAL_SESIONES) {
           sesiones[idx] = true;
-          // Guardar TODAS las fechas (incluye clases repetidas)
+          // Guardar TODAS las fechas (clases repetidas)
           const fecha = parsearFecha(clase);
           if (fecha && !fechasSesiones[idx].includes(fecha)) {
             fechasSesiones[idx].push(fecha);
