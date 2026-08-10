@@ -2292,22 +2292,34 @@ async function fetchSheetData() {
 // Convierte nombre de clase a fecha legible
 // Ej: 11JULCRN8AM_2026 → "11 Jul 2026"
 function parsearFecha(nombreClase) {
-  const MESES = {
-    'ENE':'Ene','FEB':'Feb','MAR':'Mar','ABR':'Abr',
-    'MAY':'May','JUN':'Jun','JUL':'Jul','AGO':'Ago',
-    'SEP':'Sep','SEPT':'Sep','OCT':'Oct','NOV':'Nov','DIC':'Dic',
-    'MZO':'Mar','JUN':'Jun','AGO':'Ago'
-  };
-  // Extraer año del sufijo _YYYY, o usar el año actual
+  // Orden: más largo primero para manejar AGOSTO, JULIO, etc.
+  const MESES_MAP = [
+    ['ENERO','Ene'],['ENE','Ene'],
+    ['FEBRERO','Feb'],['FEB','Feb'],
+    ['MARZO','Mar'],['MZO','Mar'],['MAR','Mar'],
+    ['ABRIL','Abr'],['ABR','Abr'],
+    ['MAYO','May'],['MAY','May'],
+    ['JUNIO','Jun'],['JUN','Jun'],
+    ['JULIO','Jul'],['JUL','Jul'],
+    ['AGOSTO','Ago'],['AGOS','Ago'],['AGO','Ago'],
+    ['SEPTIEMBRE','Sep'],['SEPT','Sep'],['SEP','Sep'],
+    ['OCTUBRE','Oct'],['OCT','Oct'],
+    ['NOVIEMBRE','Nov'],['NOV','Nov'],
+    ['DICIEMBRE','Dic'],['DIC','Dic'],
+  ];
   const anioMatch = nombreClase.match(/_(\d{4})$/);
   const anio = anioMatch ? anioMatch[1] : new Date().getFullYear().toString();
-  // Extraer día y mes del inicio — exactamente 3 letras del mes
-  const match = nombreClase.match(/^(\d{1,2})([A-Z]{3})/i);
-  if (!match) return anio;
-  const dia = match[1];
-  const mes = match[2].toUpperCase();
-  const mesLegible = MESES[mes] || mes;
-  return anio ? dia + ' ' + mesLegible + ' ' + anio : dia + ' ' + mesLegible;
+  const upper = nombreClase.toUpperCase();
+  const dayMatch = upper.match(/^(\d{1,2})/);
+  if (!dayMatch) return anio;
+  const dia = dayMatch[1];
+  const rest = upper.slice(dia.length);
+  for (const [abrev, mesLegible] of MESES_MAP) {
+    if (rest.startsWith(abrev)) {
+      return dia + ' ' + mesLegible + ' ' + anio;
+    }
+  }
+  return anio;
 }
 
 function findUser(rows, cedula) {
