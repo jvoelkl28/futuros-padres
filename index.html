@@ -1043,35 +1043,35 @@
     <p class="screen-subtitle">Consulta las clases disponibles este mes</p>
 
     <div class="card" style="background:linear-gradient(135deg,var(--teal-light),var(--rose-pale));border:1px solid var(--border)">
-      <div class="card-title">📅 Agosto 2026</div>
+      <div class="card-title">📅 Septiembre 2026</div>
       <p style="font-size:0.85rem;color:var(--text-soft);margin-bottom:1rem">Revisa el cronograma, elige tus clases y regístrate con anticipación.</p>
     </div>
 
     <div class="section-label">Clases disponibles</div>
 
-    <a href="https://drive.google.com/file/d/1w6c2Gr55I7VbwZWzr61n5g-eF_BPt5-Z/view?usp=drive_link" target="_blank" class="resource-card">
+    <a href="https://drive.google.com/file/d/1d2feLMZGrTS3acbnqAWwpMkRFehc6PAu/view?usp=drive_link" target="_blank" class="resource-card">
       <div class="resource-type-icon pdf" style="background:#E8F4FD">📅</div>
       <div class="resource-card-info">
-        <h4>Cronograma Agosto 2026 · Presencial</h4>
+        <h4>Cronograma Septiembre 2026 · Presencial</h4>
         <p>PDF · Sede Calle 127 · Toca para abrir</p>
       </div>
       <span style="font-size:1.2rem;color:var(--teal)">→</span>
     </a>
 
-    <a href="https://drive.google.com/file/d/1mPbZl-RlpkXJvWfi-jPBWROs9H8mbKp1/view?usp=drive_link" target="_blank" class="resource-card">
+    <a href="https://drive.google.com/file/d/1VX0dz_SU6uQ_oBUl5Mz3HfrtkXV36G09/view?usp=drive_link" target="_blank" class="resource-card">
       <div class="resource-type-icon pdf" style="background:var(--teal-light)">💻</div>
       <div class="resource-card-info">
-        <h4>Cronograma Agosto 2026 · Virtual</h4>
+        <h4>Cronograma Septiembre 2026 · Virtual</h4>
         <p>PDF · Microsoft Teams · Toca para abrir</p>
       </div>
       <span style="font-size:1.2rem;color:var(--teal)">→</span>
     </a>
 
-    <a href="https://drive.google.com/file/d/1qvJpvEwPouEosRnz7Sef46r12Es-dRoA/view?usp=drive_link" target="_blank" class="resource-card">
-      <div class="resource-type-icon pdf" style="background:var(--purple-light)">👶</div>
+    <a href="https://drive.google.com/file/d/1qVBs-rP_n6vqczCCoXlI6Wgp5LSKQCwB/view?usp=sharing" target="_blank" class="resource-card">
+      <div class="resource-type-icon pdf" style="background:#FDE8F4">🤱</div>
       <div class="resource-card-info">
-        <h4>Cronograma Agosto 2026 · Postparto</h4>
-        <p>PDF · Toca para abrir</p>
+        <h4>Cronograma Septiembre 2026 · Postparto</h4>
+        <p>PDF · Clases postparto · Toca para abrir</p>
       </div>
       <span style="font-size:1.2rem;color:var(--teal)">→</span>
     </a>
@@ -2053,16 +2053,6 @@
       <div class="resource-card-info"><h4>Rehabilitación de Piso Pélvico</h4><p>PDF · Woman & Baby Lab · Próximamente</p></div>
     </a>
 
-    <div class="section-label">Videos</div>
-    <a href="#" class="resource-card" onclick="return false">
-      <div class="resource-type-icon video">🎬</div>
-      <div class="resource-card-info"><h4>Posiciones para el trabajo de parto</h4><p>Video · YouTube</p></div>
-    </a>
-    <a href="#" class="resource-card" onclick="return false">
-      <div class="resource-type-icon video">🎬</div>
-      <div class="resource-card-info"><h4>Técnica de agarre en lactancia</h4><p>Video · YouTube</p></div>
-    </a>
-
     <div class="section-label">Documentales</div>
     <a href="https://www.documaniatv.com/ciencia-y-tecnologia/bebes-video_8f58c49e8.html" target="_blank" class="resource-card">
       <div class="resource-type-icon video">🍼</div>
@@ -2071,6 +2061,16 @@
         <p>Documental · Los dos primeros años de vida de cuatro bebés en el mundo</p>
       </div>
       <span style="font-size:1.2rem;color:var(--teal)">→</span>
+    </a>
+
+    <div class="section-label">Videos</div>
+    <a href="#" class="resource-card" onclick="return false">
+      <div class="resource-type-icon video">🎬</div>
+      <div class="resource-card-info"><h4>Posiciones para el trabajo de parto</h4><p>Video · YouTube</p></div>
+    </a>
+    <a href="#" class="resource-card" onclick="return false">
+      <div class="resource-type-icon video">🎬</div>
+      <div class="resource-card-info"><h4>Técnica de agarre en lactancia</h4><p>Video · YouTube</p></div>
     </a>
 
     <div class="section-label">Infografías</div>
@@ -2292,7 +2292,6 @@ async function fetchSheetData() {
 // Convierte nombre de clase a fecha legible
 // Ej: 11JULCRN8AM_2026 → "11 Jul 2026"
 function parsearFecha(nombreClase) {
-  // Orden: más largo primero para manejar AGOSTO, JULIO, etc.
   const MESES_MAP = [
     ['ENERO','Ene'],['ENE','Ene'],
     ['FEBRERO','Feb'],['FEB','Feb'],
@@ -2334,7 +2333,7 @@ function findUser(rows, cedula) {
   const listaClases = (row[6] || '').toString().trim();
   const clasesAsistidas = listaClases ? listaClases.split(' | ').map(c => c.trim().toUpperCase()) : [];
 
-  // Inicializar sesiones: false + array de fechas
+  // Inicializar sesiones: false + fecha vacía
   const sesiones = new Array(TOTAL_SESIONES).fill(false);
   const fechasSesiones = new Array(TOTAL_SESIONES).fill(null).map(() => []);
 
@@ -2346,11 +2345,8 @@ function findUser(rows, cedula) {
       if (claseBase.includes(abrev)) {
         if (idx < TOTAL_SESIONES) {
           sesiones[idx] = true;
-          // Guardar TODAS las fechas (clases repetidas)
-          const fecha = parsearFecha(clase);
-          if (fecha && !fechasSesiones[idx].includes(fecha)) {
-            fechasSesiones[idx].push(fecha);
-          }
+          // Guardar fecha si no tiene una ya
+          const _f = parsearFecha(clase); if (_f && !fechasSesiones[idx].includes(_f)) { fechasSesiones[idx].push(_f); }
         }
         break;
       }
@@ -2415,10 +2411,9 @@ function renderProgress() {
   const noContabilizan = new Set([6, 14, 16, 17]);
   SESIONES.forEach((nombre, i) => {
     const done = sesiones[i];
-    const fechaArr = Array.isArray(fechas[i]) ? fechas[i] : (fechas[i] ? [fechas[i]] : []);
-    const fechaText = fechaArr.length > 0 ? fechaArr.join(', ') : '';
+    const fecha = fechas[i] || '';
     const esPrincipal = !noContabilizan.has(i);
-    const statusText = done ? (fechaText ? 'Asistida · ' + fechaText : 'Sesión asistida') : 'Pendiente';
+    const fechaArr = Array.isArray(fecha) ? fecha : (fecha ? [fecha] : []); const fechaText = fechaArr.join(', '); const statusText = done ? (fechaText ? 'Asistida · ' + fechaText : 'Sesión asistida') : 'Pendiente';
     const adicionalTag = !esPrincipal
       ? '<span style="font-size:0.62rem;background:var(--orange-light);color:var(--orange);border-radius:99px;padding:0.1rem 0.5rem;font-weight:700;margin-left:0.4rem;vertical-align:middle">Adicional</span>'
       : '';
