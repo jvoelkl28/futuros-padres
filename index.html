@@ -948,6 +948,35 @@
   .breath-complete-msg p { font-size: 0.86rem; color: var(--text-soft); font-weight: 600; }
 
   /* Utils */
+
+  /* ══════════════ CLASES DE LA SEMANA ══════════════ */
+  .wk-nav { display:flex; align-items:center; gap:0.5rem; margin-bottom:0.8rem; }
+  .wk-nav .wk-range { flex:1; text-align:center; font-weight:800; font-size:0.92rem; color:var(--text); }
+  .wk-navbtn { width:40px; height:40px; border-radius:var(--radius-sm); border:1.5px solid var(--border); background:var(--white); color:var(--teal-dark); font:800 1.2rem/1 'Nunito',sans-serif; cursor:pointer; }
+  .wk-navbtn:disabled { opacity:0.35; cursor:default; }
+  .wk-filters { display:flex; flex-wrap:wrap; gap:0.45rem; margin-bottom:1rem; }
+  .wk-filter { font:700 0.8rem/1 'Nunito',sans-serif; padding:0.6rem 0.85rem; border-radius:999px; border:1.5px solid var(--border); background:var(--white); color:var(--text); cursor:pointer; }
+  .wk-filter.on { background:var(--teal); border-color:var(--teal); color:var(--white); }
+  .wk-day { font-size:0.75rem; font-weight:800; letter-spacing:0.08em; text-transform:uppercase; color:var(--text-soft); margin:1rem 0 0.5rem; }
+  .wk-card { background:var(--white); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow); padding:1rem; margin-bottom:0.7rem; display:grid; grid-template-columns:60px 1fr; gap:0.85rem; }
+  .wk-time { background:var(--teal-light); color:var(--teal-dark); border-radius:var(--radius-sm); padding:0.45rem 0.2rem; text-align:center; align-self:start; }
+  .wk-time b { display:block; font-size:1.1rem; line-height:1.15; }
+  .wk-time span { font-size:0.68rem; font-weight:800; text-transform:uppercase; }
+  .wk-info { min-width:0; display:flex; flex-direction:column; gap:0.4rem; }
+  .wk-info h4 { font-size:1rem; font-weight:800; color:var(--text); line-height:1.3; }
+  .wk-tags { display:flex; flex-wrap:wrap; gap:0.35rem; }
+  .wk-tag { font-size:0.72rem; font-weight:700; padding:0.15rem 0.6rem; border-radius:999px; }
+  .wk-tag.virtual { background:var(--teal-light); color:var(--teal-dark); }
+  .wk-tag.presencial { background:var(--orange-light); color:#B4540F; }
+  .wk-tag.postparto { background:var(--purple-light); color:var(--purple); }
+  .wk-tag.extra { background:#FDE8F4; color:var(--fuchsia); }
+  .wk-meta { font-size:0.8rem; color:var(--text-soft); }
+  .wk-meta strong { color:var(--text); }
+  .wk-btn { display:flex; align-items:center; justify-content:center; gap:0.4rem; min-height:44px; border-radius:var(--radius-sm); background:var(--fuchsia); color:var(--white); font:800 0.9rem/1.2 'Nunito',sans-serif; text-decoration:none; margin-top:0.2rem; }
+  .wk-btn.off { background:var(--border); color:var(--text-soft); pointer-events:none; }
+  .wk-card.closed .wk-time, .wk-card.closed h4 { opacity:0.55; }
+  .wk-empty { background:var(--white); border:1.5px dashed var(--border); border-radius:var(--radius); padding:1.2rem; text-align:center; font-size:0.85rem; color:var(--text-soft); }
+
   .hidden { display: none !important; }
   .loading-spinner {
     display: flex; align-items: center; justify-content: center;
@@ -1047,7 +1076,22 @@
       <p style="font-size:0.85rem;color:var(--text-soft);margin-bottom:1rem">Revisa el cronograma, elige tus clases y regístrate con anticipación.</p>
     </div>
 
-    <div class="section-label">Clases disponibles</div>
+    <div class="section-label">Clases de la semana</div>
+    <p style="font-size:0.82rem;color:var(--text-soft);margin-bottom:0.8rem">Toca <strong>Inscribirme</strong> en la clase que quieras y llena el preregistro. Después te llegará un correo de confirmación.</p>
+    <div class="wk-nav">
+      <button class="wk-navbtn" id="wk-prev" type="button" aria-label="Semana anterior">‹</button>
+      <div class="wk-range" id="wk-range" aria-live="polite"></div>
+      <button class="wk-navbtn" id="wk-next" type="button" aria-label="Semana siguiente">›</button>
+    </div>
+    <div class="wk-filters" role="group" aria-label="Filtrar clases">
+      <button class="wk-filter on" type="button" data-f="todas">Todas</button>
+      <button class="wk-filter" type="button" data-f="virtual">💻 Virtuales</button>
+      <button class="wk-filter" type="button" data-f="presencial">📍 Presenciales</button>
+      <button class="wk-filter" type="button" data-f="postparto">🤱 Postparto</button>
+    </div>
+    <div id="wk-list"></div>
+
+    <div class="section-label" style="margin-top:1.2rem">Cronograma completo del mes</div>
 
     <a href="https://drive.google.com/file/d/1EA7xFLX9vYqZXy9HzlpDJYoVr6IU3hZB/view?usp=sharing" target="_blank" class="resource-card">
       <div class="resource-type-icon pdf" style="background:#E8F4FD">📅</div>
@@ -1079,9 +1123,11 @@
     <div class="card" style="margin-top:1rem">
       <div class="card-title">💡 Recuerda</div>
       <ul style="font-size:0.85rem;color:var(--text-soft);padding-left:1.2rem;line-height:2">
-        <li>Haz clic en el nombre de la clase para pre-registrarte</li>
-        <li>El link se habilita hasta las <strong>10 AM del día de la clase</strong> virtual</li>
-        <li>Para presenciales se inhabilita el <strong>viernes previo a las 10 AM</strong></li>
+        <li>Toca <strong>Inscribirme</strong> (o el nombre de la clase en el PDF) para preregistrarte</li>
+        <li>Virtuales de la mañana: hasta las <strong>6 PM del día anterior</strong></li>
+        <li>Virtuales de la tarde: hasta las <strong>10 AM del mismo día</strong></li>
+        <li>Postparto de la tarde: hasta las <strong>6 PM del mismo día</strong></li>
+        <li>Presenciales: hasta las <strong>3 PM del día anterior</strong> o según disponibilidad de cupos</li>
         <li>¡Regístrate con anticipación!</li>
       </ul>
     </div>
@@ -1121,12 +1167,12 @@
     <div class="card">
       <div class="card-title">📅 ¿Cómo me registro a una clase?</div>
       <ol style="font-size:0.86rem;color:var(--text-soft);padding-left:1.2rem;line-height:2">
-        <li>Abre el PDF del cronograma mensual</li>
-        <li>Haz clic en el nombre de la clase que deseas tomar</li>
+        <li>Entra a <strong>Cronogramas</strong> y busca la clase en "Clases de la semana"</li>
+        <li>Toca <strong>Inscribirme</strong> (o el nombre de la clase en el PDF)</li>
         <li>Completa el formulario de pre-registro</li>
         <li>Recibirás un email con el link de confirmación</li>
       </ol>
-      <p style="font-size:0.82rem;color:var(--orange);margin-top:0.8rem;font-weight:700">⏰ El link se habilita hasta las 10 AM del día de la clase virtual y el viernes previo para presenciales.</p>
+      <p style="font-size:0.82rem;color:var(--orange);margin-top:0.8rem;font-weight:700">⏰ Virtuales: hasta las 10 AM del mismo día (clases de la tarde) o las 6 PM del día anterior (clases de la mañana). Presenciales: hasta las 3 PM del día anterior o según disponibilidad de cupos.</p>
     </div>
 
     <div class="card">
@@ -2788,6 +2834,74 @@ function finishBreath() {
 function formatTime(s) {
   return `${Math.floor(s/60)}:${(s%60).toString().padStart(2,'0')}`;
 }
+
+// ══════════════ CLASES DE LA SEMANA ══════════════
+// Para un mes nuevo, reemplaza la lista WK_DATA (fecha, hora 24h, clase, modalidad, link de preregistro).
+const WK_DATA = [{"d": "2026-10-02", "t": "18:00", "n": "TRABAJO DE PARTO, CESAREA & ANESTESIA", "m": "virtual", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFURFI0TzE2M1ZOQjVON1dBSk9aTE9QTDRIVy4u"}, {"d": "2026-10-05", "t": "08:00", "n": "PUJO", "m": "virtual", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFURFMyQ1ZLSVlUUVRBVlNMRldSRkM0VjlESi4u"}, {"d": "2026-10-05", "t": "18:00", "n": "PARTO EN MOVIMIENTO", "m": "virtual", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFURUhDNEZCM0k1WUZMQlk4NFEyMUxHRTRLUy4u"}, {"d": "2026-10-05", "t": "19:30", "n": "PREPARANDO TU LLEGADA", "m": "virtual", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFUODM4N1lRM0dVS1c2MUI0Wk9aWU9VNzNSVS4u"}, {"d": "2026-10-06", "t": "08:30", "n": "LOS PRIMEROS DIAS DE MI BEBÉ", "m": "postparto", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFUOFI5VTFISUFLS1FOSVY0WkVUMVFFSUsxUC4u"}, {"d": "2026-10-06", "t": "09:15", "n": "RECUPERACION POSTPARTO", "m": "postparto", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFUQjNYQ1ZVMDJJWjlNV1FJMVNCRlNISFRBQS4u"}, {"d": "2026-10-06", "t": "10:30", "n": "ESTIMULACION Y DESARROLLO", "m": "postparto", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFUOEUyWUFJRUhXWkRBWDVEWUhTTU9QMjJJUy4u"}, {"d": "2026-10-06", "t": "17:30", "n": "NUESTRO EMBARAZO", "m": "virtual", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFUNUpHRzlTSVZBVjBWN1BZVFlRRUFHQ0tENy4u"}, {"d": "2026-10-06", "t": "18:00", "n": "TALLER DE LACTANCIA + ACT. FISICA", "m": "virtual", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFUQlhSVUI2Tkw4RjlZRVNTVTVVTlpQNDhQMS4u"}, {"d": "2026-10-07", "t": "18:00", "n": "LACTANCIA MATERNA", "m": "virtual", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFUQ1JJUVhaMUo4SkdFRlJaNUo5Rk0wMzRSNi4u"}, {"d": "2026-10-08", "t": "18:00", "n": "PRACTICA DE LACTANCIA", "m": "virtual", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFUNEZSSUlNRFZPMkZQREpVNFFQQUs1UTNERC4u"}, {"d": "2026-10-09", "t": "08:00", "n": "TALLER DE LACTANCIA", "m": "virtual", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFUMlM4MEIxRkY1TklKQVVOVFVJMFg3T1IwQS4u"}, {"d": "2026-10-09", "t": "09:30", "n": "COMO CUIDAR A MI BEBE", "m": "virtual", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFUNjJXUExTWUdZUEgyMFlMVDlMSFhIN1JJMS4u"}, {"d": "2026-10-09", "t": "18:00", "n": "TECNICAS DE RESPIRACION", "m": "virtual", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFUOEZPOUlWN0xLWFBLTUNEVzJRNFJYNVNJSS4u"}, {"d": "2026-10-09", "t": "19:30", "n": "PUJO", "m": "virtual", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFUQ1NUWEdZM1lKRVVJSDdRNzBROEdRSU1NTy4u"}, {"d": "2026-10-10", "t": "08:30", "n": "TRABAJO DE PARTO, CESAREA & ANESTESIA", "m": "presencial", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFUN01YMUlWTTI1NFlXU0s4SlJUN1M0OU04QS4u"}, {"d": "2026-10-10", "t": "10:00", "n": "TALLER DE LACTANCIA", "m": "presencial", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFUNEFISUpMMDRSRTdCMUZHRk8wN1hUMTEwTC4u"}, {"d": "2026-10-10", "t": "11:30", "n": "PRACTICA DE LACTANCIA", "m": "presencial", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFUOFpYQk9KTTNIMFdLVVRLTkZaVzNWR1YwMS4u"}, {"d": "2026-10-13", "t": "08:30", "n": "LOS PRIMEROS DIAS DE MI BEBÉ", "m": "postparto", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFUQjlZVExBMkNHOVNDUFNWNExJMlhJVVozVy4u"}, {"d": "2026-10-13", "t": "09:15", "n": "RECUPERACION POSTPARTO", "m": "postparto", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFUM1BSU1BYOUoyRUQyRUI4TkJWV1ZDSFNRMy4u"}, {"d": "2026-10-13", "t": "10:30", "n": "ESTIMULACION Y DESARROLLO", "m": "postparto", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFUNEVMQTJFQU5KNVU1UVRQVERVVUNXNTBJMC4u"}, {"d": "2026-10-13", "t": "17:30", "n": "NUESTRO EMBARAZO", "m": "virtual", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFUNzQyWUFPMkM3QlNCMEtEQUozMFpKUUNKQi4u"}, {"d": "2026-10-13", "t": "18:00", "n": "SIGNOS DE ALARMA & VACUNACION + ACT. FISICA", "m": "virtual", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFUQlRNRk81TklWTTNTWjlPRDZRMzlOSENWMy4u"}, {"d": "2026-10-14", "t": "18:00", "n": "CUIDADOS POSTPARTO", "m": "virtual", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFUNTFTOUhOWU84V0NDSEkzOU1DSlNZTTdSVi4u"}, {"d": "2026-10-14", "t": "19:30", "n": "NUTRICION", "m": "virtual", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFUQktVQUNMSjMxRlU3WEtESDlOM0hUUTdHTC4u"}, {"d": "2026-10-15", "t": "18:00", "n": "EMOCIONES Y POSTPARTO", "m": "virtual", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFUMzlGSTBPM0xWWVpYWlFNRFJBSkRJOTNNWi4u"}, {"d": "2026-10-16", "t": "18:00", "n": "TECNICAS DE RESPIRACION", "m": "virtual", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFUMkpRRVBSMFZBUUFKUEY0TjNQUDVERlg4Si4u"}, {"d": "2026-10-16", "t": "19:30", "n": "PUJO", "m": "virtual", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFUMzE1VlcyTVlMN0ZRNFJIMjE5R0tPMDlQTC4u"}, {"d": "2026-10-17", "t": "08:00", "n": "TECNICAS DE RESPIRACION", "m": "presencial", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFUNVRTWVlPRUtUTFpURlk4SlpBWkVWQVJKRC4u"}, {"d": "2026-10-17", "t": "09:15", "n": "PARTO EN MOVIMIENTO", "m": "presencial", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFUQUVTRjk4MFRaUUVZSlJFM0RBMzk4MUpJVC4u"}, {"d": "2026-10-17", "t": "10:30", "n": "COMO CUIDAR A MI BEBE", "m": "presencial", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFUNjhUTUFDRDhQUjJJV0ZRQVI0U0lIRzkyNy4u"}, {"d": "2026-10-17", "t": "11:45", "n": "PREPARANDO TU LLEGADA", "m": "presencial", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFUQVM3Q1A2NURKR1BFS1QyNTIxOVNSWUtSTi4u"}, {"d": "2026-10-19", "t": "08:00", "n": "TECNICAS DE RESPIRACION", "m": "virtual", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFURjE3QkNPSDBOWkZYUk8wSzBFOTJIRVE2Ty4u"}, {"d": "2026-10-19", "t": "09:30", "n": "LACTANCIA MATERNA", "m": "virtual", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFUNlhDWkRRODVKMjZSNVIzODdKTEdFVEVHQy4u"}, {"d": "2026-10-19", "t": "18:00", "n": "PARTO EN MOVIMIENTO", "m": "virtual", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFUNDlUVjdZQjlDRlZBMThKVjVVUE1GMDE4RC4u"}, {"d": "2026-10-19", "t": "19:30", "n": "NUTRICION", "m": "virtual", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFURVdQNEhETlJWRFZVN0EyN1gwTlhYUFFMTS4u"}, {"d": "2026-10-20", "t": "08:30", "n": "LOS PRIMEROS DIAS DE MI BEBÉ", "m": "postparto", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFUM1dOMzQ3RERUVldIUkFGUUpTSEdMV1hLWC4u"}, {"d": "2026-10-20", "t": "09:15", "n": "RECUPERACION POSTPARTO", "m": "postparto", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFUMU43UkNDRlZONUswMDlTWEkzN1FPRVAxUC4u"}, {"d": "2026-10-20", "t": "10:30", "n": "ESTIMULACION Y DESARROLLO", "m": "postparto", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFUNkg3WUFDR0EzUjlSTlhVVlpMNTRIM01HNC4u"}, {"d": "2026-10-20", "t": "17:30", "n": "NUESTRO EMBARAZO", "m": "virtual", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFUQ1A1ODZPTEhHNzI2R1lCTEtBRExFV1ZQQy4u"}, {"d": "2026-10-20", "t": "18:00", "n": "CUIDADOS DEL RECIEN NACIDO", "m": "virtual", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFUN1RNODlORTQwWEZPN0w1UUtHTzFDVUFaMS4u"}, {"d": "2026-10-21", "t": "18:00", "n": "EMOCIONES + ACT. FISICA", "m": "virtual", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFUREs3M0xGWDBHUUEwMlNIS1dDNkhXMVJINS4u"}, {"d": "2026-10-22", "t": "19:15", "n": "COMO CUIDAR A MI BEBE", "m": "virtual", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFUQ0dJWlRaRDhETDlZR1dHVDZCVVkwOFhHQS4u"}, {"d": "2026-10-23", "t": "18:00", "n": "TRABAJO DE PARTO, CESAREA & ANESTESIA", "m": "virtual", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFUQllTMlNKUUtLMVlMNFhSTFUwRlBIR0NVSy4u"}, {"d": "2026-10-24", "t": "08:30", "n": "CUIDADOS DEL RECIEN NACIDO", "m": "presencial", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFUQ1RNM1VSV01OVUhKWFQ4NTI4RVZQNDM4WC4u"}, {"d": "2026-10-24", "t": "10:30", "n": "LACTANCIA MATERNA", "m": "presencial", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFUQk5UWDUyOUZNUE5aMU9FQ1RWMTdRMDVZSy4u"}, {"d": "2026-10-26", "t": "08:00", "n": "PREPARANDO TU LLEGADA", "m": "virtual", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFUODM5S0MxVFdFRjdKSlIzWlU3MEpFNEVURy4u"}, {"d": "2026-10-26", "t": "09:30", "n": "PRACTICA DE LACTANCIA", "m": "virtual", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFUMkJBSVBVNTNTVktOUE04UTg0NTg5Vk9VQi4u"}, {"d": "2026-10-26", "t": "18:00", "n": "LACTANCIA MATERNA", "m": "virtual", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFURDJPVVZLSlc4WlpMQ1BXT0hLNktQOEhYSC4u"}, {"d": "2026-10-27", "t": "08:30", "n": "LOS PRIMEROS DIAS DE MI BEBÉ", "m": "postparto", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFUODZGMDdXWFRKMVdRT0NPWUhVODBTQ0JRNS4u"}, {"d": "2026-10-27", "t": "09:15", "n": "RECUPERACION POSTPARTO", "m": "postparto", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFUNUFYTTZaQjZMUEJZSFIzWElSVkpDTjVQUC4u"}, {"d": "2026-10-27", "t": "10:30", "n": "ESTIMULACION Y DESARROLLO", "m": "postparto", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFURTkyWlFNMFpSSjNLTENFNDNERDU3S0MzQy4u"}, {"d": "2026-10-27", "t": "17:30", "n": "NUESTRO EMBARAZO", "m": "virtual", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFUQkYyOFJTTDFUVUxYMzJQMjA4Uk1JMTNKQy4u"}, {"d": "2026-10-28", "t": "18:00", "n": "TALLER DE LACTANCIA", "m": "virtual", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFURDJPVVZLSlc4WlpMQ1BXT0hLNktQOEhYSC4u"}, {"d": "2026-10-28", "t": "19:30", "n": "PRACTICA DE LACTANCIA", "m": "virtual", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFURFVZMUxDV0dJT1A0NDU5SjhGRjFJQzZJMS4u"}, {"d": "2026-10-29", "t": "18:00", "n": "SIGNOS DE ALARMA & VACUNACION + ACT. FISICA", "m": "virtual", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFUQUw3TVk4RzE2SzQwWjhRRFUwNVBSR1hXQS4u"}, {"d": "2026-10-30", "t": "18:00", "n": "TECNICAS DE RESPIRACION", "m": "virtual", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFUN1dEVDhMVjRBN1hGMDQ1TkNZM01TMzJHSy4u"}, {"d": "2026-10-30", "t": "19:30", "n": "PUJO", "m": "virtual", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFUMTE2TVZPVTRSQkhFUlkxS0o0Wk1DNlNTQy4u"}, {"d": "2026-10-31", "t": "08:00", "n": "TECNICAS DE RESPIRACION", "m": "presencial", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFUN1VLMUZKSTUxUkpUQlJHQkJCNjY4V0FUWC4u"}, {"d": "2026-10-31", "t": "09:15", "n": "PUJO", "m": "presencial", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFUNFJCNkdCRTZNUjY5V0lFNFQ4UlNEM1lIUy4u"}, {"d": "2026-10-31", "t": "10:40", "n": "PARTO EN MOVIMIENTO", "m": "presencial", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFUNk1KSEZQQzQ2TUlEWElEMTRZQkFTRllaSi4u"}, {"d": "2026-10-31", "t": "11:45", "n": "PRACTICA DE LACTANCIA", "m": "presencial", "u": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gnUOgvmY2kuSvxF-IRUMczrubbKzUnZMgMGdcpkNDIFUM1JPN0wyR0JNWU01WVFPOEI1Uk5OVzAwTS4u"}];
+(function(){
+  const NAMES = {
+    "PUJO":["Pujo","🤰"],"PARTO EN MOVIMIENTO":["Parto en movimiento","🤸‍♀️"],"PREPARANDO TU LLEGADA":["Preparando tu llegada","🧳"],
+    "NUESTRO EMBARAZO":["Nuestro embarazo","💛"],"TALLER DE LACTANCIA":["Taller de lactancia","🤱"],"LACTANCIA MATERNA":["Lactancia materna","🤱"],
+    "PRACTICA DE LACTANCIA":["Práctica de lactancia","🤱"],"COMO CUIDAR A MI BEBE":["Cómo cuidar a mi bebé","👶"],
+    "TECNICAS DE RESPIRACION":["Técnicas de respiración","🌬️"],"TRABAJO DE PARTO, CESAREA & ANESTESIA":["Trabajo de parto, cesárea y anestesia","🏥"],
+    "SIGNOS DE ALARMA & VACUNACION":["Signos de alarma y vacunación","🩺"],"CUIDADOS POSTPARTO":["Cuidados postparto","🌷"],
+    "NUTRICION":["Nutrición","🥗"],"EMOCIONES Y POSTPARTO":["Emociones y postparto","💗"],"EMOCIONES":["Emociones","💗"],
+    "CUIDADOS DEL RECIEN NACIDO":["Cuidados del recién nacido","👶"],"LOS PRIMEROS DIAS DE MI BEBÉ":["Los primeros días de mi bebé","🍼"],
+    "RECUPERACION POSTPARTO":["Recuperación postparto","💪"],"ESTIMULACION Y DESARROLLO":["Estimulación y desarrollo","🧸"]
+  };
+  const DAYS=["domingo","lunes","martes","miércoles","jueves","viernes","sábado"];
+  const MONTHS=["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+  const addDays=(iso,n)=>{const[y,m,d]=iso.split("-").map(Number);return new Date(Date.UTC(y,m-1,d+n)).toISOString().slice(0,10);};
+  const dayName=iso=>{const[y,m,d]=iso.split("-").map(Number);return DAYS[new Date(Date.UTC(y,m-1,d)).getUTCDay()];};
+  const mondayOf=iso=>{const[y,m,d]=iso.split("-").map(Number);const wd=new Date(Date.UTC(y,m-1,d)).getUTCDay();return addDays(iso,-((wd+6)%7));};
+  const to12=t=>{let[h,m]=t.split(":").map(Number);const ap=h>=12?"p. m.":"a. m.";h=h%12||12;return{hm:h+":"+String(m).padStart(2,"0"),ap};};
+  const nowBog=()=>new Date().toLocaleString("sv-SE",{timeZone:"America/Bogota"}).replace(" ","T").slice(0,16);
+  function deadline(c){
+    if(c.m==="presencial") return {d:addDays(c.d,-1),t:"15:00"};
+    if(c.t>="12:00") return {d:c.d,t:c.m==="postparto"?"18:00":"10:00"};
+    return {d:addDays(c.d,-1),t:"18:00"};
+  }
+  const list=WK_DATA.map(c=>{let raw=c.n,extra=false;
+    if(/\+\s*ACT\.?\s*FISICA/.test(raw)){extra=true;raw=raw.replace(/\s*\+\s*ACT\.?\s*FISICA/,"").trim();}
+    const nm=NAMES[raw]||[raw.charAt(0)+raw.slice(1).toLowerCase(),"✨"];
+    return {...c,name:nm[0],emoji:nm[1],extra,dl:deadline(c)};});
+  const weeks=[...new Set(list.map(c=>mondayOf(c.d)))].sort();
+  if(!weeks.length) return;
+  const today=nowBog().slice(0,10);
+  let wi=weeks.indexOf(mondayOf(today)); if(wi<0) wi= today<weeks[0]?0:weeks.length-1;
+  let filter="todas";
+  const esc=s=>String(s).replace(/[&<>"]/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch]));
+  function render(){
+    const el=document.getElementById("wk-list"); if(!el) return;
+    const now=nowBog(), start=weeks[wi], end=addDays(start,6);
+    const sm=MONTHS[+start.slice(5,7)-1], em=MONTHS[+end.slice(5,7)-1];
+    document.getElementById("wk-range").textContent="Semana del "+(+start.slice(8))+(sm!==em?" de "+sm:"")+" al "+(+end.slice(8))+" de "+em;
+    document.getElementById("wk-prev").disabled=wi===0;
+    document.getElementById("wk-next").disabled=wi===weeks.length-1;
+    document.querySelectorAll(".wk-filter").forEach(b=>b.classList.toggle("on",b.dataset.f===filter));
+    const items=list.filter(c=>c.d>=start&&c.d<=end&&(filter==="todas"||c.m===filter)&&(c.d+"T"+c.t)>=now);
+    if(!items.length){el.innerHTML='<div class="wk-empty">No quedan clases '+(filter==="todas"?"":filter==="postparto"?"de postparto ":filter==="virtual"?"virtuales ":"presenciales ")+'esta semana.<br>Toca <strong>›</strong> para ver la próxima semana.</div>';return;}
+    let html="",last="";
+    items.forEach(c=>{
+      if(c.d!==last){last=c.d;html+='<div class="wk-day">'+dayName(c.d)+" "+(+c.d.slice(8))+" de "+MONTHS[+c.d.slice(5,7)-1]+"</div>";}
+      const t=to12(c.t), closed=(c.dl.d+"T"+c.dl.t)<=now, dt=to12(c.dl.t);
+      const when=c.dl.d===c.d?"el mismo día":dayName(c.dl.d)+" "+(+c.dl.d.slice(8));
+      const tag=c.m==="presencial"?'<span class="wk-tag presencial">📍 Presencial</span>':c.m==="postparto"?'<span class="wk-tag postparto">🤱 Postparto · Virtual</span>':'<span class="wk-tag virtual">💻 Virtual</span>';
+      let meta="";
+      if(c.name==="Pujo") meta+='<div class="wk-meta">Solo para mamás con <strong>36,5 semanas o más</strong>.</div>';
+      if(c.m==="presencial") meta+='<div class="wk-meta">Sede Calle 127 · Auditorio Sótano 1</div>';
+      if(!closed) meta+='<div class="wk-meta">⏳ Inscríbete hasta: <strong>'+when+" a las "+dt.hm+" "+dt.ap+(c.m==="presencial"?" o hasta agotar cupos":"")+"</strong></div>";
+      const btn=closed?'<span class="wk-btn off">Inscripciones cerradas</span>':'<a class="wk-btn" href="'+esc(c.u)+'" target="_blank" rel="noopener">✅ Inscribirme</a>';
+      html+='<div class="wk-card'+(closed?" closed":"")+'"><div class="wk-time"><b>'+t.hm+"</b><span>"+t.ap+'</span></div><div class="wk-info"><h4>'+c.emoji+" "+esc(c.name)+'</h4><div class="wk-tags">'+tag+(c.extra?'<span class="wk-tag extra">🧘‍♀️ Incluye actividad física</span>':"")+"</div>"+meta+btn+"</div></div>";
+    });
+    el.innerHTML=html;
+  }
+  document.getElementById("wk-prev").addEventListener("click",()=>{if(wi>0){wi--;render();}});
+  document.getElementById("wk-next").addEventListener("click",()=>{if(wi<weeks.length-1){wi++;render();}});
+  document.querySelectorAll(".wk-filter").forEach(b=>b.addEventListener("click",()=>{filter=b.dataset.f;render();}));
+  render();
+  setInterval(render,60000);
+})();
 </script>
 </body>
 </html>
