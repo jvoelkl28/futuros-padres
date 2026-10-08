@@ -2366,10 +2366,11 @@ function parsearFecha(nombreClase) {
   const anioMatch = nombreClase.match(/_(\d{4})$/);
   const anio = anioMatch ? anioMatch[1] : new Date().getFullYear().toString();
   const upper = nombreClase.toUpperCase();
-  const dayMatch = upper.match(/^(\d{1,2})/);
+  // Día al inicio del código o, si trae un prefijo (ej. SOL19MAY...), el primer día seguido de un mes
+  const dayMatch = upper.match(/^(\d{1,2})/) || upper.match(/(\d{1,2})(?=ENE|FEB|MAR|MZO|ABR|MAY|JUN|JUL|AGO|SEP|OCT|NOV|DIC)/);
   if (!dayMatch) return anio;
   const dia = dayMatch[1];
-  const rest = upper.slice(dia.length);
+  const rest = upper.slice(dayMatch.index + dayMatch[0].length);
   for (const [abrev, mesLegible] of MESES_MAP) {
     if (rest.startsWith(abrev)) {
       return dia + ' ' + mesLegible + ' ' + anio;
@@ -2388,7 +2389,7 @@ function findUser(rows, cedula) {
 
   // Columna G (índice 6) = LISTA_CLASES separadas por " | "
   const listaClases = (row[6] || '').toString().trim();
-  const clasesAsistidas = listaClases ? listaClases.split(' | ').map(c => c.trim().toUpperCase()) : [];
+  const clasesAsistidas = listaClases ? listaClases.split('|').map(c => c.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, '')).filter(c => c) : [];
 
   // Inicializar sesiones: false + fecha vacía
   const sesiones = new Array(TOTAL_SESIONES).fill(false);
@@ -2398,7 +2399,9 @@ function findUser(rows, cedula) {
   clasesAsistidas.forEach(clase => {
     // Quitar sufijo _YYYY para el matching de abreviatura
     const claseBase = clase.replace(/_\d{4}$/, '');
-    for (const [abrev, idx] of Object.entries(MAPA_CLASES)) {
+    // "Tecnologías en lactancia" escrita completa: no debe contarse como Lactancia materna ni Técnicas
+    const entradas = claseBase.includes('TECNOLOG') ? [['TECNOLOG', 17]] : Object.entries(MAPA_CLASES);
+    for (const [abrev, idx] of entradas) {
       if (claseBase.includes(abrev)) {
         if (idx < TOTAL_SESIONES) {
           sesiones[idx] = true;
