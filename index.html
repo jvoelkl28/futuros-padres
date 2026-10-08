@@ -1061,6 +1061,16 @@
         🔒 El certificado se habilita al asistir al 80% de las sesiones.
       </div>
 
+      <div id="material-taller-lactancia" class="hidden">
+        <div class="section-label">Material de tus clases</div>
+        <p style="font-size:0.82rem;color:var(--text-soft);margin-bottom:0.8rem">Asististe al <strong>Taller de lactancia</strong>. Toca para descargar el material.</p>
+        <a href="taller-lactancia.pdf" download="Taller-de-Lactancia.pdf" class="resource-card">
+          <div class="resource-type-icon pdf">🤱</div>
+          <div class="resource-card-info"><h4>Taller de lactancia · Resumen y tareas</h4><p>PDF · 3 páginas · Toca para descargar</p></div>
+          <span style="font-size:1.2rem;color:var(--teal)">⬇</span>
+        </a>
+      </div>
+
       <div class="section-label">Detalle de sesiones</div>
       <div class="session-list" id="session-list"></div>
     </div>
@@ -2452,6 +2462,8 @@ function renderProgress() {
     document.getElementById('cert-available').classList.add('hidden');
     document.getElementById('cert-locked').classList.remove('hidden');
   }
+  // Material descargable: solo si asistió a Taller de lactancia (índice 3)
+  document.getElementById('material-taller-lactancia').classList.toggle('hidden', !sesiones[3]);
   const list = document.getElementById('session-list');
   list.innerHTML = '';
   const fechas = currentUser.fechasSesiones || [];
