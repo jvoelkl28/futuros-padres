@@ -967,6 +967,32 @@
     .login-card { padding: 2rem 1.3rem; }
     .login-brand { font-size: 1.7rem; }
   }
+/* ══════════════ CLASES SEMANALES ══════════════ */
+  .wk-nav { display:flex; align-items:center; gap:0.5rem; margin-bottom:0.8rem; }
+  .wk-nav .wk-range { flex:1; text-align:center; font-weight:800; font-size:0.92rem; color:var(--text); }
+  .wk-navbtn { width:40px; height:40px; border-radius:var(--radius-sm); border:1.5px solid var(--border); background:var(--white); color:var(--teal-dark); font:800 1.2rem/1 'Nunito',sans-serif; cursor:pointer; }
+  .wk-navbtn:disabled { opacity:0.35; cursor:default; }
+  .wk-filters { display:flex; flex-wrap:wrap; gap:0.45rem; margin-bottom:1rem; }
+  .wk-filter { font:700 0.8rem/1 'Nunito',sans-serif; padding:0.6rem 0.85rem; border-radius:999px; border:1.5px solid var(--border); background:var(--white); color:var(--text); cursor:pointer; }
+  .wk-filter.on { background:var(--teal); border-color:var(--teal); color:var(--white); }
+  .wk-day { font-size:0.75rem; font-weight:800; letter-spacing:0.08em; text-transform:uppercase; color:var(--text-soft); margin:1rem 0 0.5rem; }
+  .wk-card { background:var(--white); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow); padding:1rem; margin-bottom:0.7rem; display:grid; grid-template-columns:60px 1fr; gap:0.85rem; }
+  .wk-time { background:var(--teal-light); color:var(--teal-dark); border-radius:var(--radius-sm); padding:0.45rem 0.2rem; text-align:center; align-self:start; }
+  .wk-time b { display:block; font-size:1.1rem; line-height:1.15; }
+  .wk-time span { font-size:0.68rem; font-weight:800; text-transform:uppercase; }
+  .wk-info { min-width:0; display:flex; flex-direction:column; gap:0.4rem; }
+  .wk-info h4 { font-size:1rem; font-weight:800; color:var(--text); line-height:1.3; }
+  .wk-tags { display:flex; flex-wrap:wrap; gap:0.35rem; }
+  .wk-tag { font-size:0.72rem; font-weight:700; padding:0.15rem 0.6rem; border-radius:999px; }
+  .wk-tag.virtual { background:var(--teal-light); color:var(--teal-dark); }
+  .wk-tag.presencial { background:var(--orange-light); color:#B4540F; }
+  .wk-tag.postparto { background:var(--purple-light); color:var(--purple); }
+  .wk-meta { font-size:0.8rem; color:var(--text-soft); }
+  .wk-meta strong { color:var(--text); }
+  .wk-btn { display:flex; align-items:center; justify-content:center; gap:0.4rem; min-height:44px; border-radius:var(--radius-sm); background:var(--fuchsia); color:var(--white); font:800 0.9rem/1.2 'Nunito',sans-serif; text-decoration:none; margin-top:0.2rem; }
+  .wk-btn.off { background:var(--border); color:var(--text-soft); pointer-events:none; }
+  .wk-card.closed .wk-time, .wk-card.closed h4 { opacity:0.55; }
+  .wk-empty { background:var(--white); border:1.5px dashed var(--border); border-radius:var(--radius); padding:1.2rem; text-align:center; font-size:0.85rem; color:var(--text-soft); }
 </style>
 </head>
 <body>
@@ -2533,33 +2559,7 @@ function downloadCert() {
     @media print {
       body { padding: 0; }
     }
-  /* ══════════════ CLASES SEMANALES ══════════════ */
-  .wk-nav { display:flex; align-items:center; gap:0.5rem; margin-bottom:0.8rem; }
-  .wk-nav .wk-range { flex:1; text-align:center; font-weight:800; font-size:0.92rem; color:var(--text); }
-  .wk-navbtn { width:40px; height:40px; border-radius:var(--radius-sm); border:1.5px solid var(--border); background:var(--white); color:var(--teal-dark); font:800 1.2rem/1 'Nunito',sans-serif; cursor:pointer; }
-  .wk-navbtn:disabled { opacity:0.35; cursor:default; }
-  .wk-filters { display:flex; flex-wrap:wrap; gap:0.45rem; margin-bottom:1rem; }
-  .wk-filter { font:700 0.8rem/1 'Nunito',sans-serif; padding:0.6rem 0.85rem; border-radius:999px; border:1.5px solid var(--border); background:var(--white); color:var(--text); cursor:pointer; }
-  .wk-filter.on { background:var(--teal); border-color:var(--teal); color:var(--white); }
-  .wk-day { font-size:0.75rem; font-weight:800; letter-spacing:0.08em; text-transform:uppercase; color:var(--text-soft); margin:1rem 0 0.5rem; }
-  .wk-card { background:var(--white); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow); padding:1rem; margin-bottom:0.7rem; display:grid; grid-template-columns:60px 1fr; gap:0.85rem; }
-  .wk-time { background:var(--teal-light); color:var(--teal-dark); border-radius:var(--radius-sm); padding:0.45rem 0.2rem; text-align:center; align-self:start; }
-  .wk-time b { display:block; font-size:1.1rem; line-height:1.15; }
-  .wk-time span { font-size:0.68rem; font-weight:800; text-transform:uppercase; }
-  .wk-info { min-width:0; display:flex; flex-direction:column; gap:0.4rem; }
-  .wk-info h4 { font-size:1rem; font-weight:800; color:var(--text); line-height:1.3; }
-  .wk-tags { display:flex; flex-wrap:wrap; gap:0.35rem; }
-  .wk-tag { font-size:0.72rem; font-weight:700; padding:0.15rem 0.6rem; border-radius:999px; }
-  .wk-tag.virtual { background:var(--teal-light); color:var(--teal-dark); }
-  .wk-tag.presencial { background:var(--orange-light); color:#B4540F; }
-  .wk-tag.postparto { background:var(--purple-light); color:var(--purple); }
-  .wk-meta { font-size:0.8rem; color:var(--text-soft); }
-  .wk-meta strong { color:var(--text); }
-  .wk-btn { display:flex; align-items:center; justify-content:center; gap:0.4rem; min-height:44px; border-radius:var(--radius-sm); background:var(--fuchsia); color:var(--white); font:800 0.9rem/1.2 'Nunito',sans-serif; text-decoration:none; margin-top:0.2rem; }
-  .wk-btn.off { background:var(--border); color:var(--text-soft); pointer-events:none; }
-  .wk-card.closed .wk-time, .wk-card.closed h4 { opacity:0.55; }
-  .wk-empty { background:var(--white); border:1.5px dashed var(--border); border-radius:var(--radius); padding:1.2rem; text-align:center; font-size:0.85rem; color:var(--text-soft); }
-</style>
+  </style>
   </head><body>
 
   <div class="header">
