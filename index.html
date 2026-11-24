@@ -1036,6 +1036,22 @@
 
     <div id="progress-loading" class="loading-spinner"><div class="spinner"></div> Cargando tus sesiones…</div>
 
+    <div id="progreso-mantenimiento" style="display:none;background:#FFF8EC;border:1px solid #F0D9A8;border-radius:16px;padding:1.4rem 1.2rem;margin-top:0.5rem;line-height:1.55">
+      <div style="font-size:2rem;line-height:1;margin-bottom:0.6rem">🛠️</div>
+      <h3 style="margin:0 0 0.5rem;font-size:1.05rem;color:#8A5A1A">Estamos en mantenimiento</h3>
+      <p style="margin:0 0 0.7rem;font-size:0.92rem;color:#5B4A33">
+        Tu progreso, las fechas de tus clases y la descarga del certificado no están disponibles por ahora.
+        <b>Tus sesiones están guardadas y no se pierde nada.</b>
+      </p>
+      <p style="margin:0 0 0.7rem;font-size:0.92rem;color:#5B4A33">
+        Mientras tanto, lleva el control de tus clases en la <b>hoja de asistencia del PDF de bienvenida</b>.
+      </p>
+      <p style="margin:0;font-size:0.92rem;color:#5B4A33">
+        👉 Puedes seguir viendo los <b>Cronogramas</b> e <b>inscribirte a las clases</b> con normalidad.
+      </p>
+      <p style="margin:0.8rem 0 0;font-size:0.82rem;color:#8A7A63">Te avisamos apenas esté de vuelta 💛</p>
+    </div>
+
     <div id="progress-content" class="hidden">
       <div class="progress-hero">
         <div class="progress-pct" id="pct-display">0<span>%</span></div>
@@ -2197,7 +2213,14 @@
 
 <script>
 // ══════ CONFIG ══════
-const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTtqmC6lhhSkx2qGkyAjfmG3j_md9T4nxuNK6brIOt7aFNFLacHJTTQB03Uh3G8XnepbUfusAI9XRyO/pub?gid=0&single=true&output=csv';
+// MODO MANTENIMIENTO (24 nov 2026)
+// Mientras esté en true, la app NO consulta ninguna base de datos:
+// no muestra progreso, ni fechas, ni nombre, ni certificado.
+// Los cronogramas y la inscripción a clases siguen funcionando normalmente.
+// Para reactivar: poner MANTENIMIENTO = false y configurar DATOS_URL
+// con el Apps Script que devuelve SOLO los datos de la cédula consultada.
+const MANTENIMIENTO = true;
+const DATOS_URL = '';
 
 const SESIONES = [
   'Nuestro embarazo',
@@ -2340,6 +2363,11 @@ async function doLogin() {
   if (!cedula) return;
   const errEl = document.getElementById('login-error');
   errEl.style.display = 'none';
+  if (MANTENIMIENTO) {
+    currentUser = { name: '', cedula, sesiones: [], fechasSesiones: [] };
+    initApp();
+    return;
+  }
   try {
     const data = await fetchSheetData();
     const user = findUser(data, cedula);
@@ -2355,7 +2383,8 @@ async function doLogin() {
 }
 
 async function fetchSheetData() {
-  const res = await fetch(SHEET_CSV_URL);
+  if (!DATOS_URL) throw new Error('Sin fuente de datos configurada');
+  const res = await fetch(DATOS_URL);
   if (!res.ok) throw new Error('No sheet');
   const text = await res.text();
   return text.split('\n').slice(1).map(l => l.split(',').map(c => c.trim().replace(/^"|"$/g,'')));
@@ -2462,6 +2491,12 @@ function showScreen(name, btn) {
 // ══════ PROGRESO ══════
 function renderProgress() {
   document.getElementById('progress-loading').style.display = 'none';
+  if (MANTENIMIENTO) {
+    document.getElementById('progress-content').classList.add('hidden');
+    document.getElementById('progreso-mantenimiento').style.display = 'block';
+    return;
+  }
+  document.getElementById('progreso-mantenimiento').style.display = 'none';
   document.getElementById('progress-content').classList.remove('hidden');
   const sesiones = currentUser.sesiones;
   // Solo contar sesiones principales (excluye postparto y bonus)
@@ -2504,6 +2539,10 @@ function renderProgress() {
 
 // ══════ CERTIFICADO ══════
 function downloadCert() {
+  if (MANTENIMIENTO) {
+    alert('El certificado no está disponible mientras la app está en mantenimiento. Te avisamos apenas esté de vuelta.');
+    return;
+  }
   const name = (currentUser.name || '').trim();
   const cedula = currentUser.cedula;
   const nombreAcomp = currentUser.nombreAcomp || '';
